@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { useState, useEffect } from "react";
-import { COLORS, TYPOGRAPHY } from "../lib/constants";
+import { COLORS, CTA, TYPOGRAPHY } from "../lib/constants";
 
 export default function Header({ onOpenWaitlist }: { onOpenWaitlist: () => void }) {
     const [menuOpen, setMenuOpen] = useState(false);
@@ -59,7 +59,7 @@ export default function Header({ onOpenWaitlist }: { onOpenWaitlist: () => void 
                     ))}
                     <button
                         onClick={onOpenWaitlist}
-                        className="px-4 py-2 rounded-md font-medium transition hover:opacity-90"
+                        className={CTA.button}
                         style={{
                             backgroundColor: COLORS.accentTeal,
                             color: COLORS.background,
@@ -112,7 +112,7 @@ export default function Header({ onOpenWaitlist }: { onOpenWaitlist: () => void 
                     ))}
                     <button
                         onClick={onOpenWaitlist}
-                        className="px-4 py-2 rounded-md font-medium transition hover:opacity-90"
+                        className={CTA.button}
                         style={{
                             backgroundColor: COLORS.accentTeal,
                             color: COLORS.background,

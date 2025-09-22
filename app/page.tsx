@@ -6,6 +6,7 @@ import ProductCard from "./components/ProductCard";
 import NewsletterSignup from "./components/NewsLetterSignup";
 import WaitlistModal from "./components/WaitlistModal";
 import ProofBenefits from "./components/ProofBenefits";
+import WhySupplementsFail from "./components/WhyTraditionalSupplementsFail";
 
 const PRODUCTS = [
   {
@@ -40,7 +41,9 @@ export default function HomePage() {
 
         <ProofBenefits />
 
-      <section aria-labelledby="featured-products" className="mt-14">
+        <WhySupplementsFail />
+
+      {/* <section aria-labelledby="featured-products" className="mt-14">
         <h2
           id="featured-products"
           className="text-2xl font-semibold tracking-tight mb-6"
@@ -57,7 +60,7 @@ export default function HomePage() {
             />
           ))}
         </div>
-      </section>
+      </section> */}
 
       <section className="mt-16">
         <NewsletterSignup />
