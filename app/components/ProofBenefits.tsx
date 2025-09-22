@@ -105,7 +105,7 @@ export default function ProofBenefits() {
                         <Image
                             src="/images/mini-catalogue.png"
                                 alt="Product Bottle"
-                                width={600}
+                                width={720}
                                 height={540}
                                 className="relative z-10"
                             />

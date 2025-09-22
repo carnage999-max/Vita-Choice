@@ -22,8 +22,8 @@ export default function Footer() {
                     <h5 className="font-medium text-white">Company</h5>
                     <ul className="mt-3 space-y-2">
                         <li><Link href="/about">About</Link></li>
-                        <li><Link href="/careers">Careers</Link></li>
-                        <li><Link href="/press">Press</Link></li>
+                        <li><Link href="/privacy">Privacy Policy</Link></li>
+                        <li><Link href="/terms">Terms of Service</Link></li>
                     </ul>
                 </div>
 
@@ -32,8 +32,8 @@ export default function Footer() {
                     <h5 className="font-medium text-white">Support</h5>
                     <ul className="mt-3 space-y-2">
                         <li><Link href="/faq">FAQ</Link></li>
-                        <li><Link href="/contact">Contact</Link></li>
-                        <li><Link href="/policy">Policies</Link></li>
+                        <li><Link href="/refund-policy">Refund Policy</Link></li>
+                        <li><Link href="/shipping-policy">Shipping Policy</Link></li>
                     </ul>
                 </div>
 

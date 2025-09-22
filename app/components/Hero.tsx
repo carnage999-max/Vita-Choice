@@ -57,9 +57,10 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                         color: COLORS.accentTeal,
                                         fontFamily: TYPOGRAPHY.body,
                                         letterSpacing: TYPOGRAPHY.letterSpacingCTA,
+                                        textTransform: 'uppercase',
                                     }}
                                 >
-                                    VITA-CHOICE • LAUNCHING SOON
+                                    Nutrition, Elevated
                                 </span>
                             </div>
 
