@@ -15,10 +15,11 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
             {/* Full-width container with edge-to-edge design */}
             <div className="relative min-h-screen flex items-center">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    {/* Mobile-first: Image first, desktop: text first */}
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-                        {/* Content flows naturally on mobile */}
+
                         {/* Background Pattern - Enhanced for seamless blending */}
-                        <div className="absolute">
+                        <div className="absolute inset-0">
                             {/* Primary gradient overlay */}
                             <div className="absolute inset-0 bg-gradient-to-br from-[#0B0C0E] via-[#0B0C0E] to-[#14161A]" />
 
@@ -41,35 +42,83 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                             <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#0B0C0E] to-transparent" />
                         </div>
 
-                        {/* Text Column */}
-                        <div className="relative z-10 space-y-8">
-                            {/* Badge */}
-                            <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border"
+                        {/* Image Column - First on mobile, second on desktop */}
+                        <div className="flex items-center justify-center relative z-10 order-1 lg:order-2">
+                            {/* Enhanced background effects - smaller on mobile */}
+                            <div
+                                className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
                                 style={{
-                                    backgroundColor: `${COLORS.accentTeal}10`,
-                                    borderColor: `${COLORS.accentTeal}30`
-                                }}>
-                                <div className="w-2 h-2 rounded-full animate-pulse"
-                                    style={{ backgroundColor: COLORS.accentTeal }} />
-                                <span
-                                    className="text-sm font-medium"
+                                    width: "clamp(250px, 70vw, 500px)",
+                                    height: "clamp(250px, 70vw, 500px)",
+                                    background: `conic-gradient(from 180deg at 50% 50%, rgba(46,167,255,0.1) 0deg, rgba(46,230,214,0.15) 120deg, rgba(46,167,255,0.1) 240deg, rgba(46,230,214,0.1) 360deg)`,
+                                    filter: "blur(120px)",
+                                    animation: "spin 20s linear infinite",
+                                }}
+                            />
+
+                            {/* Product container - responsive sizing for premium feel */}
+                            <div className="relative group">
+                                {/* Product Image - Smaller on mobile for premium feel */}
+                                <div className="relative z-20 transition-transform duration-700 group-hover:scale-105">
+                                    <Image
+                                        src="/hero-image-.png"
+                                        alt="VitaChoice Liquid Multivitamin"
+                                        width={340}
+                                        height={340}
+                                        className="mx-auto drop-shadow-2xl w-full max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[340px] h-auto"
+                                        priority
+                                    />
+                                </div>
+
+                                {/* Enhanced floating elements - mobile optimized */}
+                                <div className="absolute -top-4 -left-6 sm:-top-6 sm:-left-8 lg:-top-6 lg:-left-12 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-[#2EE6D6] to-[#2EA7FF] 
+                                  rounded-2xl sm:rounded-2xl lg:rounded-3xl opacity-30 animate-float blur-sm" />
+                                <div className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-3 lg:-bottom-8 lg:-right-4 w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-[#737f78] to-[#27ae60] 
+                                  rounded-xl sm:rounded-xl lg:rounded-2xl opacity-40 animate-float-delayed blur-sm" />
+                                <div className="absolute top-1/3 -right-4 sm:-right-6 lg:-right-8 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-[#F5A623] to-[#f39c12] 
+                                  rounded-lg sm:rounded-lg lg:rounded-xl opacity-35 animate-bounce blur-sm" />
+
+                                {/* DNA helix elements - mobile friendly */}
+                                <div className="absolute top-1/4 -left-8 sm:-left-12 lg:-left-16 opacity-20">
+                                    <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full" style={{ backgroundColor: COLORS.accentTeal }} />
+                                </div>
+                                <div className="absolute bottom-1/3 -right-6 sm:-right-8 lg:-right-12 opacity-25">
+                                    <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full" style={{ backgroundColor: COLORS.accentBlue }} />
+                                </div>
+                            </div>
+                        </div>
+
+                        {/* Text Column - Second on mobile, first on desktop */}
+                        <div className="relative z-10 space-y-6 sm:space-y-8 order-2 lg:order-1 text-center lg:text-left">
+                            {/* Badge - centered on mobile */}
+                            <div className="flex justify-center lg:justify-start">
+                                <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border"
                                     style={{
-                                        color: COLORS.accentTeal,
-                                        fontFamily: TYPOGRAPHY.body,
-                                        letterSpacing: TYPOGRAPHY.letterSpacingCTA,
-                                        textTransform: 'uppercase',
-                                    }}
-                                >
-                                    Nutrition, Elevated
-                                </span>
+                                        backgroundColor: `${COLORS.accentTeal}10`,
+                                        borderColor: `${COLORS.accentTeal}30`
+                                    }}>
+                                    <div className="w-2 h-2 rounded-full animate-pulse"
+                                        style={{ backgroundColor: COLORS.accentTeal }} />
+                                    <span
+                                        className="text-sm font-medium"
+                                        style={{
+                                            color: COLORS.accentTeal,
+                                            fontFamily: TYPOGRAPHY.body,
+                                            letterSpacing: TYPOGRAPHY.letterSpacingCTA,
+                                            textTransform: 'uppercase',
+                                        }}
+                                    >
+                                        Nutrition, Elevated
+                                    </span>
+                                </div>
                             </div>
 
-                            {/* Main Heading */}
+                            {/* Main Heading - responsive sizing */}
                             <div className="space-y-4">
                                 <h1
                                     className="font-extrabold leading-tight"
                                     style={{
-                                        fontSize: TYPOGRAPHY.h1,
+                                        fontSize: 'clamp(1.75rem, 5vw, 2.75rem)', // Responsive between 28px and 44px
                                         fontFamily: TYPOGRAPHY.heading,
                                         color: COLORS.textPrimary,
                                     }}
@@ -78,10 +127,11 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                 </h1>
 
                                 <p
-                                    className="max-w-xl"
+                                    className="max-w-xl mx-auto lg:mx-0"
                                     style={{
                                         color: COLORS.textMuted,
-                                        fontFamily: TYPOGRAPHY.body
+                                        fontFamily: TYPOGRAPHY.body,
+                                        fontSize: 'clamp(0.875rem, 2.5vw, 1rem)' // 14px to 16px responsive
                                     }}
                                 >
                                     Every bottle is uniquely formulated for your body, based on ISB results
@@ -89,9 +139,9 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                 </p>
                             </div>
 
-                            {/* Feature List */}
-                            <div className="space-y-4">
-                                <ul className="space-y-4">
+                            {/* Feature List - mobile optimized */}
+                            <div className="space-y-3 sm:space-y-4">
+                                <ul className="space-y-3 sm:space-y-4 max-w-md mx-auto lg:max-w-none lg:mx-0">
                                     {[
                                         "Fully Liquid - superior absorption vs. pills",
                                         "Made with real fruit extracts",
@@ -99,25 +149,25 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                         "Doctor reviewed for safety and efficacy",
                                         "Vegan, gluten-free, no artificial sweeteners"
                                     ].map((point, idx) => (
-                                        <li key={idx} className="flex items-start gap-4 group">
-                                            {/* Enhanced bullet */}
-                                            <div className="relative flex-shrink-0 mt-2">
+                                        <li key={idx} className="flex items-start gap-3 sm:gap-4 group text-left">
+                                            {/* Enhanced bullet - smaller on mobile */}
+                                            <div className="relative flex-shrink-0 mt-1 sm:mt-2">
                                                 <div
-                                                    className="w-6 h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 group-hover:scale-110"
+                                                    className="w-5 h-5 sm:w-6 sm:h-6 rounded-full border-2 flex items-center justify-center transition-all duration-300 group-hover:scale-110"
                                                     style={{
                                                         borderColor: COLORS.accentTeal,
                                                         backgroundColor: `${COLORS.accentTeal}20`,
                                                     }}
                                                 >
                                                     <div
-                                                        className="w-2 h-2 rounded-full"
+                                                        className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full"
                                                         style={{ backgroundColor: COLORS.accentTeal }}
                                                     />
                                                 </div>
                                             </div>
-                                            {/* Enhanced text */}
+                                            {/* Enhanced text - smaller on mobile */}
                                             <span
-                                                className="text-base leading-relaxed group-hover:text-white transition-colors duration-300"
+                                                className="text-sm sm:text-base leading-relaxed group-hover:text-white transition-colors duration-300"
                                                 style={{
                                                     color: COLORS.textPrimary,
                                                     fontFamily: TYPOGRAPHY.body,
@@ -130,30 +180,30 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                 </ul>
                             </div>
 
-                            {/* CTA Buttons */}
-                            <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                            {/* CTA Buttons - mobile optimized */}
+                            <div className="flex flex-col gap-3 sm:gap-4 pt-4 max-w-sm mx-auto lg:max-w-none lg:mx-0 lg:flex-row">
                                 <Link
                                     href={'/shop'}
                                     style={{
                                         backgroundColor: COLORS.accentTeal,
                                         color: COLORS.background,
                                         fontFamily: TYPOGRAPHY.body,
-                                        fontSize: TYPOGRAPHY.button,
+                                        fontSize: 'clamp(0.875rem, 2vw, 1rem)', // 14px to 16px responsive
                                         letterSpacing: TYPOGRAPHY.letterSpacingCTA,
                                     }}
-                                    className={`${CTA.button} flex items-center justify-center gap-2`}
+                                    className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-semibold hover:shadow-[0_10px_25px_rgba(46,230,214,0.3)] transition-all duration-300 hover:-translate-y-1 bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] text-[#0B0C0E] text-center"
                                 >
                                     Shop Vita‑Choice
                                 </Link>
 
                                 <Link
                                     href="/learn-more"
-                                    className="px-8 py-4 rounded-xl border text-center font-semibold transition-all duration-300 hover:border-white hover:bg-white/5 hover:shadow-lg flex items-center justify-center gap-2"
+                                    className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl border text-center font-semibold transition-all duration-300 hover:border-white hover:bg-white/5 hover:shadow-lg"
                                     style={{
                                         borderColor: COLORS.border,
                                         color: COLORS.textPrimary,
                                         fontFamily: TYPOGRAPHY.body,
-                                        fontSize: TYPOGRAPHY.button,
+                                        fontSize: 'clamp(0.875rem, 2vw, 1rem)', // 14px to 16px responsive
                                     }}
                                 >
                                     Learn More
@@ -165,52 +215,6 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                 style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body }}
                             >
                                 No spam. Exclusive early access and launch offers only.
-                            </div>
-                        </div>
-
-                        {/* Enhanced Image Column */}
-                        <div className="flex items-center justify-center relative z-10">
-                            {/* Enhanced background effects */}
-                            <div
-                                className="absolute -top-40 left-1/2 -translate-x-1/2 rounded-full"
-                                style={{
-                                    width: "200%",
-                                    height: "800px",
-                                    background: `conic-gradient(from 180deg at 50% 50%, rgba(46,167,255,0.1) 0deg, rgba(46,230,214,0.15) 120deg, rgba(46,167,255,0.1) 240deg, rgba(46,230,214,0.1) 360deg)`,
-                                    filter: "blur(120px)",
-                                    animation: "spin 20s linear infinite",
-                                }}
-                            />
-
-                            {/* Product container with enhanced styling */}
-                            <div className="relative group">
-                                {/* Product Image */}
-                                <div className="relative z-20 transition-transform duration-700 group-hover:scale-105">
-                                    <Image
-                                        src="/hero-image-.png"
-                                        alt="VitaChoice Liquid Multivitamin"
-                                        width={340}
-                                        height={340}
-                                        className="mx-auto drop-shadow-2xl"
-                                        priority
-                                    />
-                                </div>
-
-                                {/* Enhanced floating elements */}
-                                <div className="absolute -top-6 -left-12 w-20 h-20 bg-gradient-to-br from-[#2EE6D6] to-[#2EA7FF] 
-                              rounded-3xl opacity-30 animate-float blur-sm" />
-                                <div className="absolute -bottom-8 -right-4 w-16 h-16 bg-gradient-to-br from-[#737f78] to-[#27ae60] 
-                              rounded-2xl opacity-40 animate-float-delayed blur-sm" />
-                                <div className="absolute top-1/3 -right-8 w-12 h-12 bg-gradient-to-br from-[#F5A623] to-[#f39c12] 
-                              rounded-xl opacity-35 animate-bounce blur-sm" />
-
-                                {/* DNA helix elements */}
-                                <div className="absolute top-1/4 -left-16 opacity-20">
-                                    <div className="w-4 h-4 rounded-full" style={{ backgroundColor: COLORS.accentTeal }} />
-                                </div>
-                                <div className="absolute bottom-1/3 -right-12 opacity-25">
-                                    <div className="w-3 h-3 rounded-full" style={{ backgroundColor: COLORS.accentBlue }} />
-                                </div>
                             </div>
                         </div>
                     </div>
