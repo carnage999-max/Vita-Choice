@@ -25,7 +25,7 @@ export default function RootLayout({
       </head>
       <body className="min-h-screen bg-[#0b0f12] text-[#e6eef8] antialiased">
         <Header onOpenWaitlist={() => setIsOpen(true)} />
-        <main className="max-w-7xl mx-auto px-6 py-12">{children}</main>
+        <main className="mx-auto px-6">{children}</main>
         <Footer />
         <WaitlistModal open={isOpen} onClose={() => setIsOpen(false)} />
       </body>

@@ -6,7 +6,7 @@ export default function Newsletter() {
     return (
         <section
             className="relative py-20 px-4 sm:px-6 lg:px-8"
-            style={{ backgroundColor: COLORS.surface }}
+            style={{ backgroundColor: COLORS.background }}
         >
             <div className="max-w-3xl mx-auto text-center space-y-8">
                 {/* Heading */}

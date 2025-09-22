@@ -25,33 +25,18 @@ const WhySupplementsFail = () => {
                                 Vita-Choice delivers in one premium liquid serving.
                             </p>
                         </div>
-
-                        {/* Solution Teaser */}
-                        <div className="bg-gradient-to-r from-[#14161A] to-[#262A31] rounded-2xl p-6 border border-[#2EE6D6]/20">
-                            <div className="flex items-center space-x-3 mb-3">
-                                <div className="w-3 h-3 bg-[#2ECC71] rounded-full"></div>
-                                <span className="text-[#2ECC71] font-semibold text-sm uppercase tracking-wide">
-                                    The Vita-Choice Solution
-                                </span>
-                            </div>
-                            <p className="text-[#F5F7FA] font-medium">
-                                Fully methylated, liquid-based formulas with
-                                <span className="text-[#2EE6D6]"> 95%+ bioavailability</span> and zero fillers.
-                                One serving delivers what traditional supplements can't.
-                            </p>
-                        </div>
                     </div>
 
                     {/* Right Visual */}
                     <div className="relative">
                         {/* Main pill visual container */}
-                        <div className="relative bg-gradient-to-br from-[#14161A] to-[#262A31] rounded-3xl p-8 border border-[#262A31]">
+                        <div className="relative bg-gradient-to-br from-[#14161A] to-[#262A31] rounded-3xl p-6 border border-[#262A31]">
                             {/* Pill comparison visual placeholder */}
                             <Image
                                 src="/tomato.png"
                                 alt="Pill Comparison"
-                                width={600}
-                                height={300}
+                                width={360}
+                                height={100}
                                 className="rounded-2xl mx-auto mb-8"
                             />
                         </div>

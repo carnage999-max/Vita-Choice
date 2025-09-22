@@ -18,7 +18,7 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
                         {/* Content flows naturally on mobile */}
                         {/* Background Pattern - Enhanced for seamless blending */}
-                        <div className="absolute inset-0">
+                        <div className="absolute">
                             {/* Primary gradient overlay */}
                             <div className="absolute inset-0 bg-gradient-to-br from-[#0B0C0E] via-[#0B0C0E] to-[#14161A]" />
 

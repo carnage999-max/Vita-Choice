@@ -25,7 +25,7 @@ export default function ProofBenefits() {
             glowColor: 'group-hover:shadow-[0_20px_40px_rgba(46,167,255,0.15)]'
         },
         {
-            icon: '/images/global-shipping.svg', // Placeholder for globe/shipping icon
+            icon: '/images/global-shipping.png', // Placeholder for globe/shipping icon
             title: 'Global Shipping & Guarantee',
             description: 'Worldwide delivery with full money-back guarantee. Premium nutrition shouldn\'t have borders—we ship excellence everywhere.',
             gradient: 'from-[#F5A623] to-[#f39c12]',
@@ -89,13 +89,23 @@ export default function ProofBenefits() {
 
                 {/* Additional Visual Element - Similar to your reference image */}
                 <div className="mt-24 text-center">
+                    <div className='mb-0'>
+                        <h2 className="text-4xl lg:text-5xl font-bold leading-tight text-[#F5F7FA] mb-4">
+                            Experience the Vita-Choice Difference
+                        </h2>
+                        <p className="text-lg text-[#B7C0CD] max-w-2xl mx-auto">
+                            Elevate your wellness journey with our meticulously crafted, science-driven supplements. Feel the transformation with every drop.
+                        </p>
+
+                    </div>
                     <div className="relative inline-flex items-center justify-center">
-                        {/* Placeholder for bottle/product visualization like in your image */}
                         
-                            <Image
-                                src="/images/mobile-page-r.png"
+                        {/* Placeholder for bottle/product visualization like in your image */}
+
+                        <Image
+                            src="/images/mini-catalogue.png"
                                 alt="Product Bottle"
-                                width={540}
+                                width={600}
                                 height={540}
                                 className="relative z-10"
                             />
