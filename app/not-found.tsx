@@ -9,7 +9,7 @@ export default function NotFound() {
             className="min-h-screen relative overflow-hidden flex items-center justify-center"
             style={{ backgroundColor: COLORS.background }}
         >
-            {/* Background gradients & floating radial elements */}
+            {/* Background gradients & mesh */}
             <div className="absolute inset-0">
                 <div className="absolute inset-0 bg-gradient-to-br from-[#0B0C0E] via-[#0B0C0E] to-[#14161A]" />
                 <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-radial from-[#2EE6D6]/20 to-transparent rounded-full blur-3xl animate-pulse" />
@@ -18,36 +18,44 @@ export default function NotFound() {
                 <div className="absolute inset-0 opacity-5"
                     style={{
                         backgroundImage: `linear-gradient(${COLORS.accentTeal}40 1px, transparent 1px), linear-gradient(90deg, ${COLORS.accentTeal}40 1px, transparent 1px)`,
-                        backgroundSize: '50px 50px'
+                        backgroundSize: "50px 50px",
                     }} />
             </div>
 
             {/* Content */}
             <div className="relative z-10 text-center space-y-8 max-w-2xl px-4">
                 {/* Floating 404 digits */}
-                <div className="relative w-full h-64">
+                <div className="relative w-full h-64 flex items-center justify-center">
                     {["4", "0", "4"].map((digit, idx) => (
                         <span
                             key={idx}
-                            className="absolute text-[100px] font-extrabold text-white opacity-80 animate-float"
+                            className="absolute text-[120px] font-extrabold opacity-90 animate-float"
                             style={{
                                 fontFamily: TYPOGRAPHY.heading,
-                                left: `${20 + idx * 30}%`,
-                                top: `${20 + idx * 10}%`,
+                                left: `${20 + idx * 25}%`,
                                 color: idx === 1 ? COLORS.accentTeal : COLORS.textPrimary,
-                                animationDelay: `${idx * 0.5}s`,
+                                animationDelay: `${idx * 0.6}s`,
                             }}
                         >
                             {digit}
                         </span>
                     ))}
+
+                    {/* Floating orbs */}
+                    <div className="absolute -top-6 left-1/3 w-12 h-12 bg-gradient-to-br from-[#2EE6D6] to-[#2EA7FF] rounded-full opacity-40 animate-float-slow blur-sm" />
+                    <div className="absolute bottom-0 right-1/3 w-10 h-10 bg-gradient-to-br from-[#F5A623] to-[#f39c12] rounded-full opacity-40 animate-float-delayed blur-sm" />
+                    <div className="absolute top-1/2 left-1/4 w-8 h-8 bg-gradient-to-br from-[#737f78] to-[#27ae60] rounded-full opacity-35 animate-float-fast blur-sm" />
+
+                    {/* Gradient streaks */}
+                    <div className="absolute top-10 left-1/2 w-32 h-1 bg-gradient-to-r from-[#2EE6D6] to-transparent opacity-40 animate-slide" />
+                    <div className="absolute bottom-10 right-1/2 w-40 h-1 bg-gradient-to-r from-[#2EA7FF] to-transparent opacity-40 animate-slide-delayed" />
                 </div>
 
                 <p
                     className="text-lg"
                     style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body }}
                 >
-                    Oops! The page you're looking for doesn't exist.
+                    Oops! The page you're looking for doesn’t exist.
                 </p>
 
                 {/* CTA Buttons */}
@@ -58,7 +66,7 @@ export default function NotFound() {
                         style={{
                             fontFamily: TYPOGRAPHY.body,
                             fontSize: TYPOGRAPHY.button,
-                            letterSpacing: TYPOGRAPHY.letterSpacingCTA
+                            letterSpacing: TYPOGRAPHY.letterSpacingCTA,
                         }}
                     >
                         Go Home
@@ -78,14 +86,31 @@ export default function NotFound() {
                 </div>
             </div>
 
+            {/* Animations */}
             <style jsx>{`
         @keyframes float {
-          0%, 100% { transform: translateY(0px); }
+          0%, 100% { transform: translateY(0); }
           50% { transform: translateY(-20px); }
         }
-        .animate-float {
-          animation: float 3s ease-in-out infinite;
+        @keyframes float-slow {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-12px); }
         }
+        @keyframes float-fast {
+          0%, 100% { transform: translateY(0); }
+          50% { transform: translateY(-30px); }
+        }
+        @keyframes slide {
+          0% { transform: translateX(-50%); opacity: 0; }
+          50% { transform: translateX(0); opacity: 1; }
+          100% { transform: translateX(50%); opacity: 0; }
+        }
+        .animate-float { animation: float 3s ease-in-out infinite; }
+        .animate-float-slow { animation: float-slow 5s ease-in-out infinite; }
+        .animate-float-fast { animation: float-fast 2.5s ease-in-out infinite; }
+        .animate-float-delayed { animation: float-slow 5s ease-in-out infinite 2s; }
+        .animate-slide { animation: slide 6s linear infinite; }
+        .animate-slide-delayed { animation: slide 6s linear infinite 3s; }
       `}</style>
         </section>
     );

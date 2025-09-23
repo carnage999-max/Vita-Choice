@@ -131,11 +131,15 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                     style={{
                                         color: COLORS.textMuted,
                                         fontFamily: TYPOGRAPHY.body,
-                                        fontSize: 'clamp(0.875rem, 2.5vw, 1rem)' // 14px to 16px responsive
+                                        fontSize: 'clamp(0.875rem, 2.5vw, 1rem)',
+                                        textAlign: 'justify'
                                     }}
                                 >
-                                    Every bottle is uniquely formulated for your body, based on ISB results
-                                    and doctor guidance. No fillers. No binders. Just real results.
+                                    {/* Every bottle is uniquely formulated for your body, based on ISB results
+                                    and doctor guidance. No fillers. No binders. Just real results. */}
+                                    Forget shelves of pill bottles—our customizable liquid multivitamin replaces them all. 
+                                    Each bottle is uniquely formulated for your body, using doctor guidance to personalize dosing by age, weight and condition.
+                                    No fillers. No binders. Just real results.
                                 </p>
                             </div>
 
@@ -223,6 +227,7 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                     <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0B0C0E] to-transparent" />
                 </div>
             </div>
+
         </section>
     );
 }
