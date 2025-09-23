@@ -124,3 +124,12 @@ body {
 .animate-float-delayed {
   animation: float-delayed 8s ease-in-out infinite 2s;
 }
+
+@keyframes bounce-slow {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-20px); }
+}
+
+.animate-bounce-slow {
+  animation: bounce-slow 8s ease-in-out infinite;
+}
