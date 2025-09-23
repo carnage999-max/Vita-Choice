@@ -61,11 +61,11 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                 {/* Product Image - Smaller on mobile for premium feel */}
                                 <div className="relative z-20 transition-transform duration-700 group-hover:scale-105">
                                     <Image
-                                        src="/hero-image-.png"
+                                        src="/new-hero.png"
                                         alt="VitaChoice Liquid Multivitamin"
                                         width={340}
                                         height={340}
-                                        className="mx-auto drop-shadow-2xl w-full max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[340px] h-auto"
+                                        className="mx-auto rounded-2xl drop-shadow-2xl w-full max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[340px] h-auto hidden lg:block"
                                         priority
                                     />
                                 </div>
@@ -131,15 +131,11 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                     style={{
                                         color: COLORS.textMuted,
                                         fontFamily: TYPOGRAPHY.body,
-                                        fontSize: 'clamp(0.875rem, 2.5vw, 1rem)',
-                                        textAlign: 'justify'
+                                        fontSize: 'clamp(0.875rem, 2.5vw, 1rem)' // 14px to 16px responsive
                                     }}
                                 >
-                                    {/* Every bottle is uniquely formulated for your body, based on ISB results
-                                    and doctor guidance. No fillers. No binders. Just real results. */}
-                                    Forget shelves of pill bottles—our customizable liquid multivitamin replaces them all. 
-                                    Each bottle is uniquely formulated for your body, using doctor guidance to personalize dosing by age, weight and condition.
-                                    No fillers. No binders. Just real results.
+                                    Every bottle is uniquely formulated for your body, based on ISB results
+                                    and doctor guidance. No fillers. No binders. Just real results.
                                 </p>
                             </div>
 
@@ -227,7 +223,6 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                     <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-[#0B0C0E] to-transparent" />
                 </div>
             </div>
-
         </section>
     );
 }
