@@ -197,7 +197,7 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                 </Link>
 
                                 <Link
-                                    href="/learn-more"
+                                    href="/about"
                                     className="px-6 sm:px-8 py-3 sm:py-4 rounded-xl border text-center font-semibold transition-all duration-300 hover:border-white hover:bg-white/5 hover:shadow-lg"
                                     style={{
                                         borderColor: COLORS.border,
