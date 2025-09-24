@@ -73,7 +73,30 @@ const products = [
         keyActives: "Soluble fiber complex, chlorella, activated charcoal (timed use), NAC, glutathione precursors, zinc‑carnosine, lactobacillus/bifido strains",
         usage: "Cyclic protocol; maintain hydration and mineral intake",
         isNew: true
+    },
+    {
+        id: 4,
+        name: "Daily Dosing Device",
+        subtitle: "Precision Liquid Dispenser",
+        price: 89,
+        originalPrice: 109,
+        category: "Accessories",
+        image: "/products/daily-dosing-device.png",
+        rating: 4.6,
+        reviewCount: 542,
+        description: "A precision-engineered device designed for accurate daily liquid supplement dosing. Ensures consistent serving size and minimal mess, perfect for maintaining your supplement routine.",
+        shortDescription: "Accurate, mess-free, and convenient liquid dosing for daily supplement use.",
+        benefits: [
+            "Precise liquid measurement",
+            "Mess-free dispensing",
+            "Durable, medical-grade materials",
+            "Easy cleaning & maintenance"
+        ],
+        keyActives: "Engineered dispenser mechanism with calibrated markings; BPA-free, food-safe materials.",
+        usage: "Use to measure and dispense the exact serving size of liquid supplements daily.",
+        isNew: true
     }
+
 ];
 
 const collections = [
@@ -139,7 +162,7 @@ const ShopPage = () => {
             {/* Product image */}
             <div className="aspect-square bg-gradient-to-br from-[#0B0C0E] to-[#14161A] rounded-2xl mb-6 flex items-center justify-center relative overflow-hidden group-hover:scale-105 transition-transform duration-300">
                 <div className="absolute inset-0 bg-gradient-to-r from-[#2EE6D6]/10 to-[#2EA7FF]/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                
+
                 {/* Replace with actual product image */}
                 <Image src={product.image} alt={product.name} fill className="object-contain" />
             </div>
@@ -285,8 +308,8 @@ const ShopPage = () => {
                                     key={collection.slug}
                                     onClick={() => setActiveCollection(collection.slug)}
                                     className={`px-4 py-2 rounded-xl font-medium transition-all duration-300 ${activeCollection === collection.slug
-                                            ? 'bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] text-[#0B0C0E]'
-                                            : 'border hover:border-[#2EE6D6]/50'
+                                        ? 'bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] text-[#0B0C0E]'
+                                        : 'border hover:border-[#2EE6D6]/50'
                                         }`}
                                     style={activeCollection !== collection.slug ? {
                                         borderColor: COLORS.border,
