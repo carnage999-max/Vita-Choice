@@ -1,256 +1,212 @@
 "use client";
 
-import React from 'react';
-import { COLORS, TYPOGRAPHY } from '../lib/constants';
+import { motion } from "framer-motion";
+import { useState } from "react";
+import { COLORS, TYPOGRAPHY } from "../lib/constants";
 
-const RefundPolicyPage = () => {
-    return (
-        <div style={{ backgroundColor: COLORS.background, color: COLORS.textPrimary }}>
-            {/* Hero Section */}
-            <section className="relative overflow-hidden py-16 lg:py-24">
-                <div className="absolute inset-0">
-                    <div className="absolute inset-0 bg-gradient-to-br from-[#0B0C0E] via-[#0B0C0E] to-[#14161A]" />
-                    <div className="absolute top-1/4 right-1/4 w-96 h-96 bg-gradient-radial from-[#2ECC71]/8 to-transparent rounded-full blur-3xl" />
-                </div>
+const sections = [
+    { id: "commitment", title: "Our Commitment to Your Satisfaction" },
+    { id: "guarantee", title: "60-Day Money-Back Guarantee" },
+    { id: "request", title: "How to Request a Refund" },
+    { id: "processing", title: "Refund Processing" },
+    { id: "subscription", title: "Subscription Refunds" },
+    { id: "special", title: "Special Circumstances" },
+    { id: "international", title: "International Customers" },
+    { id: "limitations", title: "Refund Limitations" },
+    { id: "alternatives", title: "Alternative Solutions" },
+    { id: "contact", title: "Contact Information" },
+];
 
-                <div className="relative max-w-4xl mx-auto px-6 lg:px-8">
-                    <div className="text-center mb-12">
-                        <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8"
-                            style={{
-                                backgroundColor: `${COLORS.success}10`,
-                                borderColor: `${COLORS.success}30`
-                            }}>
-                            <span className="text-sm font-medium" style={{ color: COLORS.success }}>
-                                REFUND POLICY
-                            </span>
-                        </div>
-
-                        <h1 className="text-3xl lg:text-4xl font-bold leading-tight mb-4"
-                            style={{ fontFamily: TYPOGRAPHY.heading }}>
-                            Refund Policy
-                        </h1>
-                        <p className="text-lg" style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body }}>
-                            Last updated: January 2024
-                        </p>
-                    </div>
-                </div>
-            </section>
-
-            {/* Content */}
-            <section className="py-8">
-                <div className="max-w-4xl mx-auto px-6 lg:px-8">
-                    <div className="bg-gradient-to-br from-[#2ECC71]/10 to-[#27ae60]/5 rounded-2xl p-8 border border-[#2ECC71]/20 mb-8">
-                        <h2 className="text-xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.textPrimary }}>
-                            Our Commitment to Your Satisfaction
-                        </h2>
-                        <p style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                            We stand behind the quality and effectiveness of our personalized supplements.
-                            If you're not completely satisfied with your Vita-Choice experience, we offer a comprehensive
-                            60-day money-back guarantee on your first order.
-                        </p>
-                    </div>
-
-                    <div className="space-y-8">
-                        <section>
-                            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.success }}>
-                                1. 60-Day Money-Back Guarantee
-                            </h2>
-                            <div className="space-y-4" style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                                <p>
-                                    We offer a full 60-day money-back guarantee on your first Vita-Choice order.
-                                    This gives you ample time to experience the benefits of personalized nutrition.
-                                </p>
-
-                                <div className="bg-gradient-to-br from-[#14161A] to-[#262A31] rounded-2xl p-6 border border-[#262A31]">
-                                    <h3 className="text-lg font-semibold mb-3" style={{ color: COLORS.textPrimary }}>What's Covered:</h3>
-                                    <ul className="list-disc ml-6 space-y-1">
-                                        <li>Full product cost refund (excluding shipping)</li>
-                                        <li>Assessment and formulation fees</li>
-                                        <li>Medical review charges</li>
-                                        <li>Applies even if bottle is completely empty</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section>
-                            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.success }}>
-                                2. How to Request a Refund
-                            </h2>
-                            <div className="space-y-4" style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                                <p>Requesting a refund is simple and straightforward:</p>
-
-                                <div className="grid md:grid-cols-3 gap-4 mt-6">
-                                    <div className="bg-gradient-to-br from-[#14161A] to-[#262A31] rounded-xl p-4 border border-[#262A31] text-center">
-                                        <div className="w-12 h-12 rounded-full bg-[#2ECC71] flex items-center justify-center mx-auto mb-3">
-                                            <span className="text-white font-bold">1</span>
-                                        </div>
-                                        <h3 className="font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Contact Us</h3>
-                                        <p className="text-sm">Email support@vita-choice.com or call +1 (555) 123-4567</p>
-                                    </div>
-
-                                    <div className="bg-gradient-to-br from-[#14161A] to-[#262A31] rounded-xl p-4 border border-[#262A31] text-center">
-                                        <div className="w-12 h-12 rounded-full bg-[#2ECC71] flex items-center justify-center mx-auto mb-3">
-                                            <span className="text-white font-bold">2</span>
-                                        </div>
-                                        <h3 className="font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Provide Details</h3>
-                                        <p className="text-sm">Order number and reason for refund (optional but helpful)</p>
-                                    </div>
-
-                                    <div className="bg-gradient-to-br from-[#14161A] to-[#262A31] rounded-xl p-4 border border-[#262A31] text-center">
-                                        <div className="w-12 h-12 rounded-full bg-[#2ECC71] flex items-center justify-center mx-auto mb-3">
-                                            <span className="text-white font-bold">3</span>
-                                        </div>
-                                        <h3 className="font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Get Refund</h3>
-                                        <p className="text-sm">Receive full refund within 5-10 business days</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section>
-                            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.success }}>
-                                3. Refund Processing
-                            </h2>
-                            <div className="space-y-4" style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Processing Time</h3>
-                                    <p>Once we receive your refund request, we process it within 24-48 hours. Refunds are issued to your original payment method within 5-10 business days.</p>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Return Requirements</h3>
-                                    <p>You do not need to return the product for a refund. Keep your bottle for your records or dispose of it safely according to local regulations.</p>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Shipping Costs</h3>
-                                    <p>Original shipping costs are not refundable unless the product was defective or we made an error. Return shipping is not required.</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section>
-                            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.success }}>
-                                4. Subscription Refunds
-                            </h2>
-                            <div className="space-y-4" style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>First Subscription Order</h3>
-                                    <p>Your first subscription order is covered by our 60-day money-back guarantee, just like one-time purchases.</p>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Subsequent Orders</h3>
-                                    <p>For subsequent subscription orders, refunds are available within 30 days of delivery if you're not satisfied with quality or effectiveness.</p>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Cancellation</h3>
-                                    <p>You can cancel your subscription at any time. Cancellations prevent future charges but don't automatically refund recent orders unless within the refund window.</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section>
-                            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.success }}>
-                                5. Special Circumstances
-                            </h2>
-                            <div className="space-y-4" style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Product Defects</h3>
-                                    <p>If you receive a defective product, contact us immediately. We'll provide a full refund plus shipping costs and expedite a replacement if desired.</p>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Adverse Reactions</h3>
-                                    <p>If you experience adverse reactions, stop use immediately and consult your healthcare provider. Contact us for a full refund and to report the reaction for safety monitoring.</p>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Medical Contraindications</h3>
-                                    <p>If your doctor advises discontinuing the supplement, we'll provide a full refund regardless of the time elapsed since purchase.</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section>
-                            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.success }}>
-                                6. International Customers
-                            </h2>
-                            <div className="space-y-4" style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                                <p>International customers enjoy the same refund policies with these considerations:</p>
-                                <ul className="list-disc ml-6 space-y-1">
-                                    <li>Refunds are processed in the original currency charged</li>
-                                    <li>Currency conversion fees (if any) are not refundable</li>
-                                    <li>Processing times may be slightly longer due to international banking</li>
-                                    <li>Customs duties and taxes are not refundable</li>
-                                </ul>
-                            </div>
-                        </section>
-
-                        <section>
-                            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.success }}>
-                                7. Refund Limitations
-                            </h2>
-                            <div className="bg-gradient-to-br from-[#FF5A5F]/10 to-[#FF5A5F]/5 rounded-2xl p-6 border border-[#FF5A5F]/20">
-                                <div className="space-y-4" style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                                    <p>While we strive to accommodate all reasonable refund requests, certain limitations apply:</p>
-                                    <ul className="list-disc ml-6 space-y-1">
-                                        <li>Refunds are limited to one per customer for first-time orders</li>
-                                        <li>Bulk or wholesale orders may have different refund terms</li>
-                                        <li>Gift purchases are subject to special handling procedures</li>
-                                        <li>Fraudulent or abusive refund requests may result in account suspension</li>
-                                    </ul>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section>
-                            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.success }}>
-                                8. Alternative Solutions
-                            </h2>
-                            <div className="space-y-4" style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                                <p>Before requesting a refund, consider these alternatives:</p>
-
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Formula Adjustment</h3>
-                                    <p>Our medical team can modify your formulation based on your feedback and results.</p>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Dosage Optimization</h3>
-                                    <p>Sometimes adjusting the timing or amount can significantly improve results.</p>
-                                </div>
-
-                                <div>
-                                    <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>Extended Trial Period</h3>
-                                    <p>We may extend your trial period if you need more time to evaluate effectiveness.</p>
-                                </div>
-                            </div>
-                        </section>
-
-                        <section>
-                            <h2 className="text-2xl font-bold mb-4" style={{ fontFamily: TYPOGRAPHY.heading, color: COLORS.success }}>
-                                9. Contact Information
-                            </h2>
-                            <div className="bg-gradient-to-br from-[#14161A] to-[#262A31] rounded-2xl p-6 border border-[#262A31]">
-                                <p style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body, lineHeight: '1.7' }}>
-                                    Questions about refunds or need to process a return? We're here to help:
-                                </p>
-                                <div className="mt-4 space-y-2" style={{ color: COLORS.textPrimary, fontFamily: TYPOGRAPHY.body }}>
-                                    <p><strong>Email:</strong> <span style={{ color: COLORS.success }}>refunds@vita-choice.com</span></p>
-                                    <p><strong>Phone:</strong> +1 (555) 123-4567</p>
-                                    <p><strong>Hours:</strong> Monday-Friday 9AM-6PM EST</p>
-                                    <p><strong>Live Chat:</strong> Available on our website during business hours</p>
-                                </div>
-                            </div>
-                        </section>
-                    </div>
-                </div>
-            </section>
-        </div>
-    );
+const getSectionContent = (id: string) => {
+    switch (id) {
+        case "commitment":
+            return `We stand behind the quality and effectiveness of our personalized supplements. 
+      If you're not completely satisfied with your Vita-Choice experience, we offer a comprehensive 
+      60-day money-back guarantee on your first order.`;
+        case "guarantee":
+            return `We offer a full 60-day money-back guarantee on your first Vita-Choice order. 
+      This gives you ample time to experience the benefits of personalized nutrition.`;
+        case "request":
+            return `Requesting a refund is simple and straightforward. Contact us at 
+      support@vita-choice.com or call +1 (555) 123-4567, provide your order details, 
+      and receive your refund within 5–10 business days.`;
+        case "processing":
+            return `Refunds are processed within 24–48 hours of request. Funds are returned to your 
+      original payment method within 5–10 business days. No returns are required.`;
+        case "subscription":
+            return `First subscription orders are covered by our 60-day guarantee. 
+      Subsequent orders can be refunded within 30 days of delivery. 
+      You may cancel anytime to avoid future charges.`;
+        case "special":
+            return `We provide full refunds in cases of product defects, adverse reactions, 
+      or medical contraindications. Shipping costs are refunded in cases of errors on our part.`;
+        case "international":
+            return `International customers enjoy the same refund policies with some considerations: 
+      refunds are in the original currency, conversion fees are non-refundable, 
+      and customs duties/taxes are excluded.`;
+        case "limitations":
+            return `Refunds are limited to one per customer on first-time orders. 
+      Bulk orders, gifts, or fraudulent requests may have special conditions.`;
+        case "alternatives":
+            return `Before requesting a refund, consider formula adjustments, dosage optimization, 
+      or an extended trial period provided by our medical team.`;
+        case "contact":
+            return `Questions about refunds? Email refunds@vita-choice.com, 
+      call +1 (555) 123-4567, or use live chat on our website during business hours.`;
+        default:
+            return "";
+    }
 };
 
-export default RefundPolicyPage;
+export default function RefundPolicyPage() {
+    const [selected, setSelected] = useState("");
+
+    return (
+        <main className="relative min-h-screen bg-[#0B0C0E] text-white overflow-x-hidden">
+            {/* Background effects */}
+            <div className="absolute -top-32 -left-32 w-96 h-96 bg-gradient-radial from-[#2ECC71]/20 to-transparent rounded-full blur-3xl animate-pulse"></div>
+            <div className="absolute top-64 -right-32 w-96 h-96 bg-gradient-radial from-[#2EA7FF]/15 to-transparent rounded-full blur-3xl animate-pulse delay-1000"></div>
+            <div className="absolute bottom-32 left-1/2 w-64 h-64 bg-gradient-radial from-[#FF5A5F]/10 to-transparent rounded-full blur-3xl animate-pulse delay-2000"></div>
+
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="flex flex-col lg:flex-row gap-8 lg:gap-12">
+                    {/* Sidebar */}
+                    <aside className="w-full lg:w-80 lg:sticky lg:top-20 lg:h-fit">
+                        <div className="p-6 border border-[#262A31] bg-[#14161A]/50 backdrop-blur-sm rounded-2xl">
+                            <div
+                                className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border mb-6"
+                                style={{
+                                    backgroundColor: `rgba(46, 204, 113, 0.1)`,
+                                    borderColor: `rgba(46, 204, 113, 0.3)`,
+                                }}
+                            >
+                                <span className="text-xs font-medium text-[#2EE6D6] uppercase tracking-wide">
+                                    Table of Contents
+                                </span>
+                            </div>
+                            <h2 className="text-lg font-semibold mb-6 text-[#F5F7FA]">
+                                On this page
+                            </h2>
+                            <ul className="space-y-3">
+                                {sections.map((s, index) => (
+                                    <li key={s.id}>
+                                        <a
+                                            href={`#${s.id}`}
+                                            className={`flex items-center gap-3 p-3 rounded-xl transition-all duration-300 ${selected === s.id
+                                                    ? "text-[#2ECC71] font-bold bg-[#2ECC71]/10 border border-[#2ECC71]/20"
+                                                    : "text-[#B7C0CD] hover:text-[#F5F7FA] hover:bg-[#262A31]/50"
+                                                }`}
+                                            onClick={() => setSelected(s.id)}
+                                        >
+                                            <span
+                                                className={`w-6 h-6 rounded-lg flex items-center justify-center text-xs font-bold ${selected === s.id
+                                                        ? "bg-[#2ECC71] text-[#0B0C0E]"
+                                                        : "bg-[#262A31] text-[#B7C0CD]"
+                                                    }`}
+                                            >
+                                                {index + 1}
+                                            </span>
+                                            <span className="text-sm">{s.title}</span>
+                                        </a>
+                                    </li>
+                                ))}
+                            </ul>
+                        </div>
+                    </aside>
+
+                    {/* Content */}
+                    <div className="flex-1 py-16 space-y-16">
+                        {/* Header */}
+                        <div className="text-center space-y-6">
+                            <div
+                                className="inline-flex items-center gap-2 px-4 py-2 rounded-full border"
+                                style={{
+                                    backgroundColor: `rgba(46, 204, 113, 0.1)`,
+                                    borderColor: `rgba(46, 204, 113, 0.3)`,
+                                }}
+                            >
+                                <span className="text-sm font-medium text-[#2ECC71] uppercase tracking-wide">
+                                    Refund Policy
+                                </span>
+                            </div>
+
+                            <h1
+                                className="text-4xl md:text-5xl font-bold text-[#F5F7FA] leading-tight"
+                            >
+                                Refund Policy
+                            </h1>
+
+                            <p
+                                className="text-[#B7C0CD] text-lg"
+                                style={{ fontFamily: TYPOGRAPHY.body }}
+                            >
+                                Last updated: January 2024
+                            </p>
+                        </div>
+
+                        {/* Sections */}
+                        {sections.map((s, i) => (
+                            <section
+                                key={s.id}
+                                id={s.id}
+                                className={`space-y-6 scroll-mt-24 p-8 rounded-2xl border transition-all duration-300 hover:border-[#2ECC71]/30 ${s.id === "limitations"
+                                        ? "bg-[#FF5A5F]/5 border-[#FF5A5F]/20"
+                                        : "bg-[#14161A] border-[#262A31]"
+                                    }`}
+                            >
+                                <div className="flex items-center gap-4">
+                                    <div
+                                        className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold ${s.id === "limitations"
+                                                ? "bg-[#FF5A5F] text-white"
+                                                : "bg-[#2EE6D6] text-[#0B0C0E]"
+                                            }`}
+                                    >
+                                        {i + 1}
+                                    </div>
+                                    <h2 className="text-2xl font-bold text-[#F5F7FA]">
+                                        {s.title}
+                                    </h2>
+                                </div>
+
+                                <div
+                                    className={`leading-relaxed ${s.id === "limitations"
+                                            ? "text-[#F5F7FA]"
+                                            : "text-[#B7C0CD]"
+                                        }`}
+                                >
+                                    <p>{getSectionContent(s.id)}</p>
+                                </div>
+                            </section>
+                        ))}
+
+                        {/* CTA card */}
+                        <div
+                            className="mt-20 p-8 md:p-12 rounded-2xl bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] text-center shadow-2xl"
+                        >
+                            <h3 className="text-3xl font-bold mb-4 text-[#0B0C0E]">
+                                Still have refund questions?
+                            </h3>
+                            <p className="mb-8 text-[#0B0C0E]/80 text-lg">
+                                Our support team is here to help with any issues.
+                            </p>
+                            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                                <a
+                                    href="/contact"
+                                    className="px-8 py-4 bg-[#0B0C0E] text-white font-semibold rounded-xl shadow-lg hover:bg-[#14161A] transition-all duration-300 hover:-translate-y-1"
+                                >
+                                    Contact Support
+                                </a>
+                                <a
+                                    href="mailto:refunds@vita-choice.com"
+                                    className="px-8 py-4 bg-white/10 text-[#0B0C0E] font-semibold rounded-xl border-2 border-[#0B0C0E]/20 hover:bg-white/20 transition-all duration-300"
+                                >
+                                    Email Refunds Team
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    );
+}

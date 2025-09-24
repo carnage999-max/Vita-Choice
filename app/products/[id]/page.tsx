@@ -62,14 +62,14 @@ const relatedProducts = [
         id: 2,
         name: "Diabetes Support Stack",
         price: 129,
-        image: "/products/core-vitamin.png",
+        image: "/products/diabetes-support-stack.png",
         rating: 4.7
     },
     {
         id: 3,
         name: "Microplastics Cleanse Stack",
         price: 169,
-        image: "/products/core-vitamin.png",
+        image: "/products/microplastic-cleanse-stack.png",
         rating: 4.8
     }
 ];

@@ -97,40 +97,31 @@ export default function TermsPage() {
                         </span>
                     </div>
                     
-                    <motion.h1
+                    <h1
                         className="text-4xl md:text-5xl font-bold text-[#F5F7FA] leading-tight"
-                        initial={{ opacity: 0, y: -20 }}
-                        animate={{ opacity: 1, y: 0 }}
                     >
                         Terms of Service
-                    </motion.h1>
+                    </h1>
                     
                     <p className="text-[#B7C0CD] text-lg">Last updated: January 2024</p>
                 </div>
 
                 {/* Agreement Notice */}
-                <motion.div
+                <div
                     className="p-8 rounded-2xl bg-[#14161A] border border-[#262A31]"
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    transition={{ delay: 0.2 }}
                 >
                     <h2 className="text-xl font-semibold text-[#F5F7FA] mb-4">Agreement to Terms</h2>
                     <p className="text-[#B7C0CD] leading-relaxed">
                         By accessing and using Vita-Choice services, you agree to be bound by these Terms of Service. 
                         Please read them carefully. If you do not agree to these terms, you may not use our services.
                     </p>
-                </motion.div>
+                </div>
 
                 {/* Sections */}
                 {sections.map((s, i) => (
-                    <motion.section
+                    <section
                         key={s.id}
                         id={s.id}
-                        initial={{ opacity: 0, y: 20 }}
-                        whileInView={{ opacity: 1, y: 0 }}
-                        transition={{ duration: 0.6, delay: i * 0.1 }}
-                        viewport={{ once: true }}
                         className={`space-y-6 scroll-mt-24 p-8 rounded-2xl border transition-all duration-300 hover:border-[#2EE6D6]/30 ${
                             s.id === "medical" 
                                 ? "bg-[#FF5A5F]/5 border-[#FF5A5F]/20" 
@@ -153,15 +144,12 @@ export default function TermsPage() {
                         }`}>
                             <p>{getSectionContent(s.id)}</p>
                         </div>
-                    </motion.section>
+                    </section>
                 ))}
 
                 {/* Contact Information */}
-                <motion.div
+                <div
                     className="p-8 rounded-2xl bg-[#14161A] border border-[#262A31]"
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    transition={{ duration: 0.6 }}
                 >
                     <h2 className="text-xl font-semibold text-[#F5F7FA] mb-4">Contact Information</h2>
                     <p className="text-[#B7C0CD] mb-4">
@@ -172,14 +160,11 @@ export default function TermsPage() {
                         <p><strong>Phone:</strong> +1 (555) 123-4567</p>
                         <p><strong>Mail:</strong> Vita-Choice Legal Department<br />123 Health Plaza, Suite 450<br />New York, NY 10001</p>
                     </div>
-                </motion.div>
+                </div>
 
                 {/* CTA card at bottom */}
-                <motion.div
+                <div
                     className="mt-20 p-8 md:p-12 rounded-2xl bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] text-center shadow-2xl"
-                    initial={{ opacity: 0, scale: 0.9 }}
-                    whileInView={{ opacity: 1, scale: 1 }}
-                    transition={{ duration: 0.6 }}
                 >
                     <h3 className="text-3xl font-bold mb-4 text-[#0B0C0E]">Still have questions?</h3>
                     <p className="mb-8 text-[#0B0C0E]/80 text-lg">Reach out to our support team for clarifications.</p>
@@ -197,7 +182,7 @@ export default function TermsPage() {
                             Email Legal Team
                         </a>
                     </div>
-                </motion.div>
+                </div>
             </div>
                 </div>
             </div>

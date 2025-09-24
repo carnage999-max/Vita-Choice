@@ -92,6 +92,15 @@ const ContactPage = () => {
                     <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-gradient-radial from-[#2EE6D6]/10 to-transparent rounded-full blur-3xl" />
                     <div className="absolute bottom-1/4 right-1/4 w-80 h-80 bg-gradient-radial from-[#2EA7FF]/8 to-transparent rounded-full blur-3xl" />
                 </div>
+                {/* Floating Shapes */}
+                <div className="absolute inset-0 overflow-hidden">
+                    <div className="absolute top-20 left-10 w-12 h-12 rounded-full bg-[#2EE6D6]/20 animate-float-slow" />
+                    <div className="absolute bottom-32 right-20 w-10 h-10 bg-[#2EA7FF]/20 rotate-12 animate-float-medium" />
+                    <div
+                        className="absolute top-1/2 left-1/3 w-0 h-0 border-l-[15px] border-r-[15px] border-b-[25px] border-l-transparent border-r-transparent border-b-[#2EE6D6]/30 animate-float-fast"
+                    />
+                </div>
+
 
                 <div className="relative max-w-4xl mx-auto px-6 lg:px-8 text-center">
                     <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full border mb-8"
@@ -381,12 +390,9 @@ const ContactPage = () => {
                                 </h3>
                                 <div className="space-y-3">
                                     {[
-                                        { title: "Order Status", link: "/orders" },
-                                        { title: "Return Policy", link: "/returns" },
-                                        { title: "Shipping Info", link: "/shipping" },
+                                        { title: "Return Policy", link: "/return-policy" },
+                                        { title: "Shipping Info", link: "/shipping-policy" },
                                         { title: "FAQ", link: "/faq" },
-                                        { title: "Health Assessment", link: "/assessment" },
-                                        { title: "Lab Test Guide", link: "/lab-tests" }
                                     ].map((item, index) => (
                                         <a key={index}
                                             href={item.link}
