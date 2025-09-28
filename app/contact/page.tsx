@@ -7,17 +7,25 @@ const ContactPage = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        phone: '',
+        phone_number: '',
         subject: '',
-        priority: 'general',
+        inquiry_type: 'general',
         message: '',
         consent: false
     });
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        // Handle form submission here
-        console.log('Form submitted:', formData);
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}api/contact/`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(formData)
+        }).then(response => {
+            if (response.ok) {
+                alert('Your message has been sent successfully!');
+                console.log('Form submitted:', formData);
+            }
+        });
     };
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
@@ -218,8 +226,8 @@ const ContactPage = () => {
                                             </label>
                                             <input
                                                 type="tel"
-                                                name="phone"
-                                                value={formData.phone}
+                                                name="phone_number"
+                                                value={formData.phone_number}
                                                 onChange={handleChange}
                                                 className="w-full px-4 py-3 rounded-xl border bg-[#0B0C0E] transition-all duration-300 focus:border-[#2EE6D6] focus:outline-none focus:ring-2 focus:ring-[#2EE6D6]/20"
                                                 style={{
@@ -236,8 +244,8 @@ const ContactPage = () => {
                                                 Inquiry Type
                                             </label>
                                             <select
-                                                name="priority"
-                                                value={formData.priority}
+                                                name="inquiry_type"
+                                                value={formData.inquiry_type}
                                                 onChange={handleChange}
                                                 className="w-full px-4 py-3 rounded-xl border bg-[#0B0C0E] transition-all duration-300 focus:border-[#2EE6D6] focus:outline-none focus:ring-2 focus:ring-[#2EE6D6]/20"
                                                 style={{
