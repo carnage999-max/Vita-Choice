@@ -6,7 +6,78 @@ import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
 import { COLORS, TYPOGRAPHY, SPACING } from "@/app/lib/constants";
 
-const products = [
+// Interface for API product response (same as shop page)
+interface ApiProduct {
+    id: string;
+    name: string;
+    subtitle: string | null;
+    price: string;
+    original_price: string | null;
+    category: string;
+    image: string;
+    rating: string;
+    review_count: number;
+    description: string;
+    short_description: string;
+    key_actives: string[];
+    free_from: string[];
+    benefits: string[];
+    serving_size: string | null;
+    servings_per_bottle: string | null;
+    faqs: Array<{ question: string; answer: string }>;
+    usage: string;
+    created_at: string;
+    updated_at: string;
+}
+
+// Interface for internal product structure
+interface Product {
+    id: number | string;
+    name: string;
+    subtitle: string;
+    price: number;
+    originalPrice: number;
+    category: string;
+    image: string;
+    rating: number;
+    reviewCount: number;
+    description: string;
+    shortDescription: string;
+    benefits: string[];
+    keyActives: string[];
+    freeFrom: string[];
+    servingSize: string | null;
+    servingsPerBottle: number | null;
+    usage: string;
+    isBestseller?: boolean;
+    faqs: Array<{ question: string; answer: string }>;
+}
+
+// Function to transform API product to internal product structure
+const transformApiProduct = (apiProduct: ApiProduct): Product => ({
+    id: apiProduct.id,
+    name: apiProduct.name,
+    subtitle: apiProduct.subtitle || "",
+    price: parseFloat(apiProduct.price),
+    originalPrice: apiProduct.original_price ? parseFloat(apiProduct.original_price) : parseFloat(apiProduct.price),
+    category: apiProduct.category,
+    image: apiProduct.image,
+    rating: parseFloat(apiProduct.rating),
+    reviewCount: apiProduct.review_count,
+    description: apiProduct.description,
+    shortDescription: apiProduct.short_description,
+    benefits: apiProduct.benefits || [],
+    keyActives: apiProduct.key_actives || [],
+    freeFrom: apiProduct.free_from || [],
+    servingSize: apiProduct.serving_size,
+    servingsPerBottle: apiProduct.servings_per_bottle ? parseInt(apiProduct.servings_per_bottle) : null,
+    usage: apiProduct.usage,
+    isBestseller: false,
+    faqs: apiProduct.faqs || []
+});
+
+// Fallback products data (keeping original structure)
+const fallbackProducts: Product[] = [
     {
         id: 1,
         name: "Vita-Choice™ Core Liquid Multivitamin",
@@ -208,23 +279,127 @@ const products = [
 const ProductDetailPage = () => {
     const params = useParams();
     const router = useRouter();
-    const id = params?.id ? Number(params.id) : NaN;
+    const id = params?.id;
 
-    const product = products.find((p) => p.id === id);
+    // State for product data
+    const [product, setProduct] = useState<Product | null>(null);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
 
-    // redirect to shop if invalid id
-    useEffect(() => {
-        if (!isFinite(id) || !product) {
-            router.replace("/shop");
-        }
-    }, [id, product, router]);
-
-    // local UI state
+    // Local UI state
     const [activeTab, setActiveTab] = useState("overview");
     const [quantity, setQuantity] = useState(1);
 
-    // if product is not yet available while redirect fires, render nothing
-    if (!product) return null;
+    // Fetch single product from API
+    useEffect(() => {
+        const fetchProduct = async () => {
+            if (!id) {
+                router.replace("/shop");
+                return;
+            }
+
+            try {
+                setLoading(true);
+                setError(null);
+                
+                const response = await fetch(`https://vita-choice-backend/products/${id}`);
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const apiProduct: ApiProduct = await response.json();
+                const transformedProduct = transformApiProduct(apiProduct);
+                setProduct(transformedProduct);
+                
+            } catch (err) {
+                console.error('Failed to fetch product from API:', err);
+                setError(err instanceof Error ? err.message : 'Failed to fetch product');
+                
+                // Fallback to hardcoded products
+                const numericId = typeof id === 'string' ? parseInt(id) : id;
+                const fallbackProduct = fallbackProducts.find((p) => p.id == numericId);
+                
+                if (fallbackProduct) {
+                    setProduct(fallbackProduct);
+                } else {
+                    // If no fallback product found, redirect to shop
+                    router.replace("/shop");
+                    return;
+                }
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProduct();
+    }, [id, router]);
+
+    // Fetch related products (all products except current)
+    useEffect(() => {
+        const fetchRelatedProducts = async () => {
+            try {
+                const response = await fetch('https://vita-choice-backend/products');
+                
+                if (response.ok) {
+                    const apiProducts: ApiProduct[] = await response.json();
+                    const transformedProducts = apiProducts
+                        .map(transformApiProduct)
+                        .filter(p => p.id !== id)
+                        .slice(0, 2);
+                    
+                    setRelatedProducts(transformedProducts);
+                } else {
+                    // Use fallback products for related products
+                    const related = fallbackProducts.filter((p) => p.id != id).slice(0, 2);
+                    setRelatedProducts(related);
+                }
+            } catch (err) {
+                console.error('Failed to fetch related products:', err);
+                // Use fallback products for related products
+                const related = fallbackProducts.filter((p) => p.id != id).slice(0, 2);
+                setRelatedProducts(related);
+            }
+        };
+
+        if (product) {
+            fetchRelatedProducts();
+        }
+    }, [product, id]);
+
+    // Show loading state
+    if (loading) {
+        return (
+            <div style={{ backgroundColor: COLORS.background, color: COLORS.textPrimary }} className="min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="animate-spin w-8 h-8 border-2 border-[#2EE6D6] border-t-transparent rounded-full mx-auto mb-4" />
+                    <p style={{ color: COLORS.textMuted }}>Loading product...</p>
+                </div>
+            </div>
+        );
+    }
+
+    // Show error state if no product found
+    if (!product) {
+        return (
+            <div style={{ backgroundColor: COLORS.background, color: COLORS.textPrimary }} className="min-h-screen flex items-center justify-center">
+                <div className="text-center">
+                    <div className="text-6xl mb-4">😔</div>
+                    <h2 className="text-2xl font-bold mb-4">Product Not Found</h2>
+                    <p className="mb-8" style={{ color: COLORS.textMuted }}>
+                        The product you're looking for doesn't exist or may have been removed.
+                    </p>
+                    <Link 
+                        href="/shop" 
+                        className="bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] text-[#0B0C0E] px-8 py-4 rounded-xl font-semibold hover:shadow-[0_10px_25px_rgba(46,230,214,0.3)] transition-all duration-300 hover:-translate-y-1"
+                    >
+                        Back to Shop
+                    </Link>
+                </div>
+            </div>
+        );
+    }
 
     const tabs = [
         { id: "overview", label: "Overview" },
@@ -234,11 +409,27 @@ const ProductDetailPage = () => {
         { id: "faqs", label: "FAQs" },
     ];
 
-    // derive related products if needed (exclude current)
-    const relatedProducts = products.filter((p) => p.id !== product.id).slice(0, 2);
-
     return (
         <div style={{ backgroundColor: COLORS.background, color: COLORS.textPrimary }}>
+            {/* API Error Notification */}
+            {error && (
+                <div className="bg-[#FF5A5F]/10 border-b border-[#FF5A5F]/30 p-4">
+                    <div className="max-w-7xl mx-auto px-6 lg:px-8">
+                        <div className="flex items-center gap-3">
+                            <span className="text-[#FF5A5F]">⚠️</span>
+                            <div className="flex-1">
+                                <p className="text-sm font-medium" style={{ color: COLORS.textPrimary }}>
+                                    API Connection Issue
+                                </p>
+                                <p className="text-xs" style={{ color: COLORS.textMuted }}>
+                                    Showing sample product data. Some information may not be current.
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            )}
+
             {/* Breadcrumb */}
             <section className="py-4 border-b" style={{ borderColor: COLORS.border }}>
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
@@ -423,16 +614,22 @@ const ProductDetailPage = () => {
                                     </h3>
                                     <div className="space-y-3">
                                         {Array.isArray(product.keyActives) ? (
-                                            product.keyActives.map((active, index) => (
-                                                <div key={index} className="flex justify-between items-center py-2 border-b" style={{ borderColor: COLORS.border }}>
-                                                    <span style={{ color: COLORS.textPrimary }}>{active.split(" - ")[0]}</span>
-                                                    <span style={{ color: COLORS.accentTeal }} className="font-medium">
-                                                        {active.split(" - ")[1] ?? ""}
-                                                    </span>
-                                                </div>
-                                            ))
+                                            product.keyActives.length > 0 ? (
+                                                product.keyActives.map((active, index) => (
+                                                    <div key={index} className="flex justify-between items-center py-2 border-b" style={{ borderColor: COLORS.border }}>
+                                                        <span style={{ color: COLORS.textPrimary }}>
+                                                            {typeof active === 'string' && active.includes(' - ') ? active.split(" - ")[0] : active}
+                                                        </span>
+                                                        <span style={{ color: COLORS.accentTeal }} className="font-medium">
+                                                            {typeof active === 'string' && active.includes(' - ') ? active.split(" - ")[1] : ""}
+                                                        </span>
+                                                    </div>
+                                                ))
+                                            ) : (
+                                                <p style={{ color: COLORS.textMuted }}>No ingredients information available</p>
+                                            )
                                         ) : (
-                                            <p style={{ color: COLORS.textMuted }}>{product.keyActives}</p>
+                                            <p style={{ color: COLORS.textMuted }}>{product.keyActives || "No ingredients information available"}</p>
                                         )}
                                     </div>
                                 </div>
@@ -441,12 +638,16 @@ const ProductDetailPage = () => {
                                         Free From
                                     </h3>
                                     <div className="grid grid-cols-2 gap-2">
-                                        {product.freeFrom.map((item, index) => (
-                                            <div key={index} className="flex items-center gap-2">
-                                                <span style={{ color: COLORS.success }}>✓</span>
-                                                <span style={{ color: COLORS.textPrimary }}>{item}</span>
-                                            </div>
-                                        ))}
+                                        {product.freeFrom && product.freeFrom.length > 0 ? (
+                                            product.freeFrom.map((item, index) => (
+                                                <div key={index} className="flex items-center gap-2">
+                                                    <span style={{ color: COLORS.success }}>✓</span>
+                                                    <span style={{ color: COLORS.textPrimary }}>{item}</span>
+                                                </div>
+                                            ))
+                                        ) : (
+                                            <p style={{ color: COLORS.textMuted }}>No allergen information available</p>
+                                        )}
                                     </div>
                                 </div>
                             </div>

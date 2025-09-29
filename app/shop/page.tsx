@@ -1,12 +1,59 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { COLORS, TYPOGRAPHY, SPACING } from '../lib/constants';
 
-// Product data based on specification document
-const products = [
+// Interface for API product response
+interface ApiProduct {
+    id: string;
+    name: string;
+    subtitle: string | null;
+    price: string;
+    original_price: string | null;
+    category: string;
+    image: string;
+    rating: string;
+    review_count: number;
+    description: string;
+    short_description: string;
+    key_actives: string[];
+    free_from: string[];
+    benefits: string[];
+    serving_size: string | null;
+    servings_per_bottle: string | null;
+    faqs: Array<{ question: string; answer: string }>;
+    usage: string;
+    created_at: string;
+    updated_at: string;
+}
+
+// Interface for internal product structure
+interface Product {
+    id: number | string;
+    name: string;
+    subtitle: string;
+    price: number;
+    originalPrice: number;
+    category: string;
+    image: string;
+    rating: number;
+    reviewCount: number;
+    description: string;
+    shortDescription: string;
+    benefits: string[];
+    keyActives: string | string[];
+    freeFrom?: string[];
+    usage?: string;
+    isPopular?: boolean;
+    isBestseller?: boolean;
+    isNew?: boolean;
+    isSpecialized?: boolean;
+}
+
+// Fallback product data based on specification document
+const fallbackProducts: Product[] = [
     {
         id: 1,
         name: "Vita‑Choice™ Core Liquid Multivitamin",
@@ -26,7 +73,7 @@ const products = [
             "Immune system support"
         ],
         keyActives: "Methylfolate (5‑MTHF), methylcobalamin, P5P (B6), chelated magnesium, zinc, selenium, iodine, vitamin D baseline 2000 IU (adjustable), spirulina + seaweed complex",
-        freeFrom: "Gluten, artificial colors/sweeteners",
+        freeFrom: ["Gluten", "artificial colors/sweeteners"],
         isPopular: true,
         isBestseller: true
     },
@@ -99,17 +146,80 @@ const products = [
 
 ];
 
-const collections = [
-    { name: "All Products", slug: "all", count: 3 },
-    { name: "Daily Essentials", slug: "daily-essentials", count: 1 },
-    { name: "Targeted Stacks", slug: "targeted-stacks", count: 2 }
-];
+// Function to transform API product to internal product structure
+const transformApiProduct = (apiProduct: ApiProduct): Product => ({
+    id: apiProduct.id,
+    name: apiProduct.name,
+    subtitle: apiProduct.subtitle || "",
+    price: parseFloat(apiProduct.price),
+    originalPrice: apiProduct.original_price ? parseFloat(apiProduct.original_price) : parseFloat(apiProduct.price),
+    category: apiProduct.category,
+    image: apiProduct.image,
+    rating: parseFloat(apiProduct.rating),
+    reviewCount: apiProduct.review_count,
+    description: apiProduct.description,
+    shortDescription: apiProduct.short_description,
+    benefits: apiProduct.benefits || [],
+    keyActives: apiProduct.key_actives || [],
+    freeFrom: apiProduct.free_from || [],
+    usage: apiProduct.usage,
+    // Add some default properties for UI display
+    isPopular: false,
+    isBestseller: false,
+    isNew: false,
+    isSpecialized: false
+});
 
 const ShopPage = () => {
     const [activeCollection, setActiveCollection] = useState("all");
     const [sortBy, setSortBy] = useState("popular");
+    const [products, setProducts] = useState<Product[]>(fallbackProducts);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
 
-    const filteredProducts = products.filter(product =>
+    // Fetch products from API
+    useEffect(() => {
+        const fetchProducts = async () => {
+            try {
+                setLoading(true);
+                setError(null);
+
+                const response = await fetch('https://vita-choice-backend.onrender.com/api/product//');
+
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                
+                const apiProducts: ApiProduct[] = await response.json();
+                
+                // Transform API products to internal format
+                const transformedProducts = apiProducts.map(transformApiProduct);
+                
+                // If we have products from API, use them; otherwise keep fallback
+                if (transformedProducts.length > 0) {
+                    setProducts(transformedProducts);
+                }
+                
+            } catch (err) {
+                console.error('Failed to fetch products from API:', err);
+                setError(err instanceof Error ? err.message : 'Failed to fetch products');
+                // Keep using fallback products on error
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        fetchProducts();
+    }, []);
+
+    // Dynamic collections based on actual products
+    const collections = [
+        { name: "All Products", slug: "all", count: products.length },
+        { name: "Daily Essentials", slug: "daily-essentials", count: products.filter((p: Product) => p.category.toLowerCase().includes("daily")).length },
+        { name: "Targeted Stacks", slug: "targeted-stacks", count: products.filter((p: Product) => p.category.toLowerCase().includes("stack") || p.category.toLowerCase().includes("target")).length }
+    ];
+
+    const filteredProducts = products.filter((product: Product) =>
         activeCollection === "all" ||
         product.category.toLowerCase().replace(" ", "-") === activeCollection
     );
@@ -127,7 +237,7 @@ const ShopPage = () => {
         }
     });
 
-    const ProductCard = ({ product }: { product: typeof products[0] }) => (
+    const ProductCard = ({ product }: { product: Product }) => (
         <div className="group bg-gradient-to-br from-[#14161A] to-[#262A31] rounded-3xl p-6 border border-[#262A31] hover:border-[#2EE6D6]/30 transition-all duration-300 hover:-translate-y-2 relative overflow-hidden">
             {/* Product badges */}
             <div className="absolute top-4 left-4 flex flex-col gap-2 z-10">
@@ -349,11 +459,53 @@ const ShopPage = () => {
             {/* Products Grid */}
             <section className="py-8">
                 <div className="max-w-7xl mx-auto px-6 lg:px-8">
-                    <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                        {sortedProducts.map((product) => (
-                            <ProductCard key={product.id} product={product} />
-                        ))}
-                    </div>
+                    {/* Loading State */}
+                    {loading && (
+                        <div className="text-center py-16">
+                            <div className="animate-spin w-8 h-8 border-2 border-[#2EE6D6] border-t-transparent rounded-full mx-auto mb-4" />
+                            <p style={{ color: COLORS.textMuted }}>Loading products...</p>
+                        </div>
+                    )}
+
+                    {/* Error State */}
+                    {error && !loading && (
+                        <div className="text-center py-16">
+                            <div className="bg-[#FF5A5F]/10 border border-[#FF5A5F]/30 rounded-xl p-6 max-w-md mx-auto mb-4">
+                                <div className="text-4xl mb-4">⚠️</div>
+                                <h3 className="text-lg font-semibold mb-2" style={{ color: COLORS.textPrimary }}>
+                                    API Connection Issue
+                                </h3>
+                                <p className="text-sm mb-4" style={{ color: COLORS.textMuted }}>
+                                    We're having trouble connecting to our servers. Showing sample products instead.
+                                </p>
+                                <p className="text-xs" style={{ color: COLORS.textMuted }}>
+                                    Error: {error}
+                                </p>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Products Grid */}
+                    {!loading && (
+                        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+                            {sortedProducts.map((product) => (
+                                <ProductCard key={product.id} product={product} />
+                            ))}
+                        </div>
+                    )}
+
+                    {/* No Products State */}
+                    {!loading && sortedProducts.length === 0 && (
+                        <div className="text-center py-16">
+                            <div className="text-6xl mb-4">📦</div>
+                            <h3 className="text-2xl font-bold mb-4" style={{ color: COLORS.textPrimary }}>
+                                No Products Found
+                            </h3>
+                            <p style={{ color: COLORS.textMuted }}>
+                                No products match your current filter selection.
+                            </p>
+                        </div>
+                    )}
                 </div>
             </section>
 
