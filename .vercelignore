@@ -1,0 +1,6 @@
+VitaChoiceMobile/
+*.md
+!README.md
+.vscode/
+.git/
+*.log

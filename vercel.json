@@ -23,10 +23,5 @@
         }
       ]
     }
-  ],
-  "ignore": [
-    "VitaChoiceMobile/**",
-    "README.md",
-    "*.md"
   ]
 }
