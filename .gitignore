@@ -46,3 +46,10 @@ next-env.d.ts
 .env.production.local
 
 .vscode
+
+# Mobile app specific (keep in repo but ignore build artifacts)
+VitaChoiceMobile/node_modules/
+VitaChoiceMobile/.expo/
+VitaChoiceMobile/dist/
+VitaChoiceMobile/*.tgz
+VitaChoiceMobile/*.tar.gz
