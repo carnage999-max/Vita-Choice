@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { COLORS, TYPOGRAPHY } from '../lib/constants';
 
 const ContactPage = () => {
@@ -14,19 +14,58 @@ const ContactPage = () => {
         consent: false
     });
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [submitStatus, setSubmitStatus] = useState<'idle' | 'success' | 'error'>('idle');
+
+    const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        fetch(`${process.env.NEXT_PUBLIC_API_URL}api/contact/`, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify(formData)
-        }).then(response => {
+        setIsSubmitting(true);
+        setSubmitStatus('idle');
+
+        try {
+            // Use the correct API endpoint
+            const response = await fetch('https://vita-choice-backend.onrender.com/api/contact/', {
+                method: 'POST',
+                headers: { 
+                    'Content-Type': 'application/json',
+                    'Accept': 'application/json'
+                },
+                body: JSON.stringify(formData)
+            });
+
             if (response.ok) {
-                alert('Your message has been sent successfully!');
-                console.log('Form submitted:', formData);
+                setSubmitStatus('success');
+                // Reset form on success
+                setFormData({
+                    name: '',
+                    email: '',
+                    phone_number: '',
+                    subject: '',
+                    inquiry_type: 'general',
+                    message: '',
+                    consent: false
+                });
+                console.log('Form submitted successfully:', formData);
+            } else {
+                throw new Error(`Server error: ${response.status}`);
             }
-        });
+        } catch (error) {
+            console.error('Failed to submit form:', error);
+            setSubmitStatus('error');
+        } finally {
+            setIsSubmitting(false);
+        }
     };
+
+    // Auto-clear status messages after 5 seconds
+    useEffect(() => {
+        if (submitStatus !== 'idle') {
+            const timer = setTimeout(() => {
+                setSubmitStatus('idle');
+            }, 5000);
+            return () => clearTimeout(timer);
+        }
+    }, [submitStatus]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value, type } = e.target;
@@ -322,11 +361,49 @@ const ContactPage = () => {
                                         </label>
                                     </div>
 
+                                    {/* Status Messages */}
+                                    {submitStatus === 'success' && (
+                                        <div className="p-4 rounded-xl bg-[#2ECC71]/10 border border-[#2ECC71]/30 mb-4">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-[#2ECC71]">✓</span>
+                                                <p className="text-sm" style={{ color: COLORS.textPrimary }}>
+                                                    Your message has been sent successfully! We'll get back to you soon.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+
+                                    {submitStatus === 'error' && (
+                                        <div className="p-4 rounded-xl bg-[#FF5A5F]/10 border border-[#FF5A5F]/30 mb-4">
+                                            <div className="flex items-center gap-3">
+                                                <span className="text-[#FF5A5F]">⚠</span>
+                                                <p className="text-sm" style={{ color: COLORS.textPrimary }}>
+                                                    Failed to send message. Please try again or contact us directly.
+                                                </p>
+                                            </div>
+                                        </div>
+                                    )}
+
                                     <button
                                         type="submit"
-                                        className="w-full bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] text-[#0B0C0E] px-8 py-4 rounded-xl font-semibold hover:shadow-[0_10px_25px_rgba(46,230,214,0.3)] transition-all duration-300 hover:-translate-y-1"
+                                        disabled={isSubmitting}
+                                        className={`w-full px-8 py-4 rounded-xl font-semibold transition-all duration-300 ${
+                                            isSubmitting 
+                                                ? 'bg-gray-600 cursor-not-allowed' 
+                                                : 'bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] hover:shadow-[0_10px_25px_rgba(46,230,214,0.3)] hover:-translate-y-1'
+                                        }`}
+                                        style={{ 
+                                            color: isSubmitting ? '#999' : '#0B0C0E'
+                                        }}
                                     >
-                                        Send Message
+                                        {isSubmitting ? (
+                                            <div className="flex items-center justify-center gap-3">
+                                                <div className="w-4 h-4 border-2 border-gray-400 border-t-transparent rounded-full animate-spin" />
+                                                Sending Message...
+                                            </div>
+                                        ) : (
+                                            'Send Message'
+                                        )}
                                     </button>
                                 </form>
                             </div>
