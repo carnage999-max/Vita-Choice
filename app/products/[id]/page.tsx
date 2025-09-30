@@ -336,29 +336,70 @@ const ProductDetailPage = () => {
         fetchProduct();
     }, [id, router]);
 
-    // Fetch related products (all products except current)
+    // Fetch related products with intelligent selection
     useEffect(() => {
         const fetchRelatedProducts = async () => {
             try {
-                const response = await fetch('https://vita-choice-backend/products');
+                const response = await fetch('https://vita-choice-backend.onrender.com/api/product//');
                 
                 if (response.ok) {
                     const apiProducts: ApiProduct[] = await response.json();
-                    const transformedProducts = apiProducts
-                        .map(transformApiProduct)
-                        .filter(p => p.id !== id)
-                        .slice(0, 2);
+                    const allProducts = apiProducts.map(transformApiProduct).filter(p => p.id !== id);
                     
-                    setRelatedProducts(transformedProducts);
+                    // Smart selection logic
+                    const getRelatedProducts = (currentProduct: Product, allProducts: Product[]) => {
+                        // 1. First priority: Same category
+                        const sameCategory = allProducts.filter(p => p.category === currentProduct.category);
+                        
+                        // 2. Second priority: Similar benefits (if same category has less than 2)
+                        const similarBenefits = allProducts.filter(p => 
+                            p.benefits.some(benefit => currentProduct.benefits.includes(benefit))
+                        );
+                        
+                        // 3. Third priority: Bestsellers
+                        const bestsellers = allProducts.filter(p => p.isBestseller);
+                        
+                        // 4. Fourth priority: Random selection
+                        const shuffled = [...allProducts].sort(() => 0.5 - Math.random());
+                        
+                        // Combine and prioritize
+                        const related = [
+                            ...sameCategory,
+                            ...similarBenefits.filter(p => !sameCategory.includes(p)),
+                            ...bestsellers.filter(p => !sameCategory.includes(p) && !similarBenefits.includes(p)),
+                            ...shuffled.filter(p => !sameCategory.includes(p) && !similarBenefits.includes(p) && !bestsellers.includes(p))
+                        ];
+                        
+                        return related.slice(0, 2);
+                    };
+                    
+                    const relatedProducts = getRelatedProducts(product!, allProducts);
+                    setRelatedProducts(relatedProducts);
                 } else {
-                    // Use fallback products for related products
-                    const related = fallbackProducts.filter((p) => p.id != id).slice(0, 2);
+                    // Intelligent fallback selection
+                    const getSmartFallback = (currentProduct: Product) => {
+                        const available = fallbackProducts.filter(p => p.id != id);
+                        const sameCategory = available.filter(p => p.category === currentProduct.category);
+                        
+                        if (sameCategory.length >= 2) {
+                            return sameCategory.slice(0, 2);
+                        }
+                        
+                        // Mix same category with others
+                        return [...sameCategory, ...available.filter(p => p.category !== currentProduct.category)].slice(0, 2);
+                    };
+                    
+                    const related = getSmartFallback(product!);
                     setRelatedProducts(related);
                 }
             } catch (err) {
                 console.error('Failed to fetch related products:', err);
-                // Use fallback products for related products
-                const related = fallbackProducts.filter((p) => p.id != id).slice(0, 2);
+                // Smart fallback on error
+                const available = fallbackProducts.filter(p => p.id != id);
+                const sameCategory = available.filter(p => p.category === product!.category);
+                const related = sameCategory.length >= 2 
+                    ? sameCategory.slice(0, 2)
+                    : [...sameCategory, ...available.filter(p => p.category !== product!.category)].slice(0, 2);
                 setRelatedProducts(related);
             }
         };
