@@ -22,18 +22,30 @@ const ContactPage = () => {
         setIsSubmitting(true);
         setSubmitStatus('idle');
 
+        console.log('Submitting form with data:', formData);
+
         try {
-            // Use the correct API endpoint
-            const response = await fetch('https://vita-choice-backend.onrender.com/api/contact/', {
+            // Add timeout to prevent endless loading
+            const controller = new AbortController();
+            const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
+
+            // Use Next.js API route to avoid CORS issues
+            const response = await fetch('/api/contact', {
                 method: 'POST',
                 headers: { 
                     'Content-Type': 'application/json',
                     'Accept': 'application/json'
                 },
-                body: JSON.stringify(formData)
+                body: JSON.stringify(formData),
+                signal: controller.signal
             });
 
+            clearTimeout(timeoutId);
+            console.log('Response status:', response.status);
+
             if (response.ok) {
+                const result = await response.json();
+                console.log('Success response:', result);
                 setSubmitStatus('success');
                 // Reset form on success
                 setFormData({
@@ -45,13 +57,20 @@ const ContactPage = () => {
                     message: '',
                     consent: false
                 });
-                console.log('Form submitted successfully:', formData);
             } else {
-                throw new Error(`Server error: ${response.status}`);
+                const errorData = await response.json();
+                console.error('Error response:', errorData);
+                throw new Error(`Server error: ${response.status} - ${errorData.error || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Failed to submit form:', error);
-            setSubmitStatus('error');
+            
+            if (error instanceof Error && error.name === 'AbortError') {
+                setSubmitStatus('error');
+                console.error('Request timed out');
+            } else {
+                setSubmitStatus('error');
+            }
         } finally {
             setIsSubmitting(false);
         }
