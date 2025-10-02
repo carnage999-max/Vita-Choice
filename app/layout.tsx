@@ -13,7 +13,7 @@ export default function RootLayout({
 }) {
   const [isOpen, setIsOpen] = useState(false);
 
-  const siteUrl = "https://vita-choice.vercel.app";
+  const siteUrl = "https://thevitachoice.com";
   const ogImage = `${siteUrl}/og-image.png`;
 
   return (
