@@ -99,14 +99,14 @@ const ContactPage = () => {
             icon: "📧",
             title: "Email Support",
             description: "Get detailed answers to your questions",
-            contact: "support@vita-choice.com",
+            contact: "support@thevitachoice.com",
             responseTime: "24-48 hours"
         },
         {
             icon: "📞",
             title: "Phone Consultation",
             description: "Speak directly with our medical team",
-            contact: "+1 (555) 123-4567",
+            contact: "+1 (207)947-1999",
             responseTime: "Mon-Fri 9AM-6PM EST"
         },
         {
@@ -120,33 +120,19 @@ const ContactPage = () => {
             icon: "🩺",
             title: "Medical Review",
             description: "Complex health questions require review",
-            contact: "medical@vita-choice.com",
+            contact: "medical@thevitachoice.com",
             responseTime: "3-5 business days"
         }
     ];
 
     const officeLocations = [
         {
-            city: "New York",
-            address: "123 Health Plaza, Suite 450",
-            address2: "New York, NY 10001",
-            phone: "+1 (555) 123-4567",
-            email: "ny@vita-choice.com"
+            city: "Maine",
+            address: "P.O. Box 52",
+            address2: "Detroit, ME. 04929",
+            phone: "+1 (207)947-1999",
+            email: "info@thevitachoice.com"
         },
-        {
-            city: "Los Angeles",
-            address: "456 Wellness Boulevard",
-            address2: "Los Angeles, CA 90210",
-            phone: "+1 (555) 987-6543",
-            email: "la@vita-choice.com"
-        },
-        {
-            city: "London",
-            address: "789 Nutrition Street",
-            address2: "London, UK SW1A 1AA",
-            phone: "+44 20 7123 4567",
-            email: "london@vita-choice.com"
-        }
     ];
 
     return (
@@ -293,7 +279,7 @@ const ContactPage = () => {
                                                     color: COLORS.textPrimary,
                                                     fontFamily: TYPOGRAPHY.body
                                                 }}
-                                                placeholder="+1 (555) 123-4567"
+                                                placeholder="+1 (207)947-1999"
                                             />
                                         </div>
 
@@ -532,7 +518,7 @@ const ContactPage = () => {
                                 </a>
                                 <a href="tel:+15551234567"
                                     className="border border-[#FF5A5F] text-[#FF5A5F] px-6 py-3 rounded-xl font-semibold hover:bg-[#FF5A5F]/10 transition-colors duration-300">
-                                    Medical Hotline: +1 (555) 123-4567
+                                    Medical Hotline: +1 (207)947-1999
                                 </a>
                             </div>
                         </div>

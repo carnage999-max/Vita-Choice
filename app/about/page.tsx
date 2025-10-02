@@ -7,11 +7,11 @@ import WaitlistModal from "../components/WaitlistModal";
 import Image from "next/image";
 
 const AboutPage = () => {
-    const stats = [
-        { number: "10,000+", label: "Lives Transformed" },
-        { number: "500+", label: "Doctor Partners" },
-        { number: "95%+", label: "Bioavailability Rate" },
-        { number: "0", label: "Artificial Fillers" },
+    const features = [
+        { title: "Liquid Formula", description: "Superior absorption vs traditional pills", icon: "💧" },
+        { title: "Personalized", description: "Tailored to your unique biology", icon: "🧬" },
+        { title: "Science-Backed", description: "Research-driven formulations", icon: "🔬" },
+        { title: "Pure Ingredients", description: "No fillers, binders, or artificial additives", icon: "✨" },
     ];
 
     const values = [
@@ -21,11 +21,14 @@ const AboutPage = () => {
         { title: "Purity", description: "No fillers, binders, or artificial additives.", icon: "✨" },
     ];
 
+    // Team members data - commented out until real team members are available
+    /*
     const teamMembers = [
         { name: "Dr. Juliana Silva", role: "Chief Scientific Officer", specialty: "PhD, Nutritional Biochemistry", image: "/team/juliana-silva.png" },
         { name: "Dr. Claudia Alves", role: "Medical Director", specialty: "MD, Internal Medicine", image: "/team/claudia-alves.png" },
         { name: "Dr. Takehiro Kanegi", role: "Research Director", specialty: "PhD, Molecular Biology", image: "/team/takehiro-kanegi.png" },
     ];
+    */
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -75,7 +78,7 @@ const AboutPage = () => {
                 </div>
             </section>
 
-            {/* Stats */}
+            {/* Features Section */}
             <section className="relative py-16 border-t border-b overflow-hidden" style={{ borderColor: COLORS.border }}>
                 {/* Floating Icons + Glows */}
                 <div className="absolute inset-0 pointer-events-none">
@@ -101,18 +104,29 @@ const AboutPage = () => {
                     </div>
                 </div>
 
-                {/* Stats Grid */}
-                <div className="relative max-w-6xl mx-auto px-6 grid grid-cols-2 lg:grid-cols-4 gap-8">
-                    {stats.map((s, i) => (
-                        <div key={i} className="text-center space-y-2">
-                            <div className="text-3xl font-bold bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] bg-clip-text text-transparent">
-                                {s.number}
+                {/* Features Grid */}
+                <div className="relative max-w-6xl mx-auto px-6">
+                    <h2 
+                        className="text-2xl lg:text-3xl font-bold text-center mb-12"
+                        style={{ fontFamily: TYPOGRAPHY.heading }}
+                    >
+                        Why Choose <span className="bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] bg-clip-text text-transparent">VitaChoice</span>
+                    </h2>
+                    <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+                        {features.map((feature, i) => (
+                            <div key={i} className="text-center space-y-4 group">
+                                <div className="text-4xl mb-4 transition-transform group-hover:scale-110">
+                                    {feature.icon}
+                                </div>
+                                <h3 className="text-lg font-semibold" style={{ fontFamily: TYPOGRAPHY.heading }}>
+                                    {feature.title}
+                                </h3>
+                                <p className="text-sm leading-relaxed" style={{ color: COLORS.textMuted }}>
+                                    {feature.description}
+                                </p>
                             </div>
-                            <div className="text-sm" style={{ color: COLORS.textMuted }}>
-                                {s.label}
-                            </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
             </section>
 
@@ -168,7 +182,7 @@ const AboutPage = () => {
                 </div>
             </section>
 
-            {/* Team */}
+            {/* Team Section - Commented out until real team members are available
             <section className="py-24 max-w-6xl mx-auto px-6">
                 <h2
                     className="text-3xl lg:text-4xl font-bold text-center mb-16"
@@ -200,6 +214,7 @@ const AboutPage = () => {
                     ))}
                 </div>
             </section>
+            */}
 
             {/* CTA */}
             <section className="py-24 text-center">
@@ -217,7 +232,7 @@ const AboutPage = () => {
                         className="text-lg mb-8"
                         style={{ color: COLORS.textMuted, fontFamily: TYPOGRAPHY.body }}
                     >
-                        Join thousands already experiencing formulas designed for their unique biology.
+                        Be among the first to experience the future of personalized nutrition.
                     </p>
                     <div className="flex flex-col sm:flex-row gap-4 justify-center">
                         <button
