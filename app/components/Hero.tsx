@@ -15,10 +15,9 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
             {/* Full-width container with edge-to-edge design */}
             <div className="relative min-h-screen flex items-center">
                 <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    
                     {/* Mobile-first: Image first, desktop: text first */}
-                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">
-
-                        {/* Background Pattern - Enhanced for seamless blending */}
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-16 items-center">{/* Background Pattern - Enhanced for seamless blending */}
                         <div className="absolute inset-0">
                             {/* Primary gradient overlay */}
                             <div className="absolute inset-0 bg-gradient-to-br from-[#0B0C0E] via-[#0B0C0E] to-[#14161A]" />
@@ -42,48 +41,65 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                             <div className="absolute inset-x-0 top-0 h-20 bg-gradient-to-b from-[#0B0C0E] to-transparent" />
                         </div>
 
-                        {/* Image Column - First on mobile, second on desktop */}
+                        {/* Image Column - Prominent Bottle & Pills Display */}
                         <div className="flex items-center justify-center relative z-10 order-1 lg:order-2">
-                            {/* Enhanced background effects - smaller on mobile */}
+                            {/* Enhanced background effects */}
                             <div
                                 className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 rounded-full"
                                 style={{
-                                    width: "clamp(250px, 70vw, 500px)",
-                                    height: "clamp(250px, 70vw, 500px)",
-                                    background: `conic-gradient(from 180deg at 50% 50%, rgba(46,167,255,0.1) 0deg, rgba(46,230,214,0.15) 120deg, rgba(46,167,255,0.1) 240deg, rgba(46,230,214,0.1) 360deg)`,
+                                    width: "clamp(300px, 80vw, 600px)",
+                                    height: "clamp(300px, 80vw, 600px)",
+                                    background: `conic-gradient(from 180deg at 50% 50%, rgba(46,167,255,0.15) 0deg, rgba(46,230,214,0.25) 120deg, rgba(46,167,255,0.15) 240deg, rgba(46,230,214,0.15) 360deg)`,
                                     filter: "blur(120px)",
                                     animation: "spin 20s linear infinite",
                                 }}
                             />
 
-                            {/* Product container - responsive sizing for premium feel */}
+                            {/* Product container - Larger and more prominent */}
                             <div className="relative group">
-                                {/* Product Image - Smaller on mobile for premium feel */}
+                                {/* Product Image - Responsive with different images */}
                                 <div className="relative z-20 transition-transform duration-700 group-hover:scale-105">
+                                    {/* Desktop Image */}
                                     <Image
                                         src="/new-hero.png"
-                                        alt="VitaChoice Liquid Multivitamin"
-                                        width={340}
-                                        height={340}
-                                        className="mx-auto rounded-2xl drop-shadow-2xl w-full max-w-[200px] sm:max-w-[250px] md:max-w-[300px] lg:max-w-[340px] h-auto hidden lg:block"
+                                        alt="VitaChoice Liquid Multivitamin - Premium Bottle with Pills"
+                                        width={400}
+                                        height={400}
+                                        className="hidden sm:block mx-auto rounded-2xl drop-shadow-2xl w-full max-w-[280px] sm:max-w-[350px] md:max-w-[380px] lg:max-w-[400px] h-auto"
+                                        priority
+                                    />
+                                    
+                                    {/* Mobile Image - Product Placeholder */}
+                                    <Image
+                                        src="/product-placeholder.png"
+                                        alt="VitaChoice Products"
+                                        width={280}
+                                        height={280}
+                                        className="block sm:hidden mx-auto rounded-2xl drop-shadow-2xl w-full max-w-[280px] h-auto"
                                         priority
                                     />
                                 </div>
 
-                                {/* Enhanced floating elements - mobile optimized */}
-                                <div className="absolute -top-4 -left-6 sm:-top-6 sm:-left-8 lg:-top-6 lg:-left-12 w-12 h-12 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-[#2EE6D6] to-[#2EA7FF] 
-                                  rounded-2xl sm:rounded-2xl lg:rounded-3xl opacity-30 animate-float blur-sm" />
-                                <div className="absolute -bottom-4 -right-2 sm:-bottom-6 sm:-right-3 lg:-bottom-8 lg:-right-4 w-10 h-10 sm:w-12 sm:h-12 lg:w-16 lg:h-16 bg-gradient-to-br from-[#737f78] to-[#27ae60] 
-                                  rounded-xl sm:rounded-xl lg:rounded-2xl opacity-40 animate-float-delayed blur-sm" />
-                                <div className="absolute top-1/3 -right-4 sm:-right-6 lg:-right-8 w-8 h-8 sm:w-10 sm:h-10 lg:w-12 lg:h-12 bg-gradient-to-br from-[#F5A623] to-[#f39c12] 
-                                  rounded-lg sm:rounded-lg lg:rounded-xl opacity-35 animate-bounce blur-sm" />
+                                {/* Enhanced floating pill elements */}
+                                <div className="absolute -top-6 -left-8 sm:-top-8 sm:-left-12 lg:-top-8 lg:-left-16 w-16 h-16 sm:w-20 sm:h-20 lg:w-24 lg:h-24 bg-gradient-to-br from-[#2EE6D6] to-[#2EA7FF] 
+                                  rounded-full opacity-40 animate-float blur-sm" />
+                                <div className="absolute -bottom-6 -right-4 sm:-bottom-8 sm:-right-6 lg:-bottom-10 lg:-right-8 w-14 h-14 sm:w-16 sm:h-16 lg:w-20 lg:h-20 bg-gradient-to-br from-[#737f78] to-[#27ae60] 
+                                  rounded-full opacity-50 animate-float-delayed blur-sm" />
+                                <div className="absolute top-1/3 -right-6 sm:-right-8 lg:-right-12 w-12 h-12 sm:w-14 sm:h-14 lg:w-16 lg:h-16 bg-gradient-to-br from-[#F5A623] to-[#f39c12] 
+                                  rounded-full opacity-45 animate-bounce blur-sm" />
+                                  
+                                {/* Additional pill elements for "pills" emphasis */}
+                                <div className="absolute top-1/4 -left-4 sm:-left-6 lg:-left-8 w-8 h-8 sm:w-10 sm:h-10 bg-gradient-to-br from-[#e74c3c] to-[#c0392b] 
+                                  rounded-full opacity-35 animate-pulse" />
+                                <div className="absolute bottom-1/4 -right-2 sm:-right-4 lg:-right-6 w-6 h-6 sm:w-8 sm:h-8 bg-gradient-to-br from-[#9b59b6] to-[#8e44ad] 
+                                  rounded-full opacity-40 animate-float" style={{ animationDelay: '1s' }} />
 
-                                {/* DNA helix elements - mobile friendly */}
-                                <div className="absolute top-1/4 -left-8 sm:-left-12 lg:-left-16 opacity-20">
-                                    <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full" style={{ backgroundColor: COLORS.accentTeal }} />
+                                {/* DNA/molecular elements */}
+                                <div className="absolute top-1/4 -left-12 sm:-left-16 lg:-left-20 opacity-30">
+                                    <div className="w-4 h-4 sm:w-5 sm:h-5 rounded-full" style={{ backgroundColor: COLORS.accentTeal }} />
                                 </div>
-                                <div className="absolute bottom-1/3 -right-6 sm:-right-8 lg:-right-12 opacity-25">
-                                    <div className="w-2 h-2 sm:w-3 sm:h-3 rounded-full" style={{ backgroundColor: COLORS.accentBlue }} />
+                                <div className="absolute bottom-1/3 -right-8 sm:-right-12 lg:-right-16 opacity-35">
+                                    <div className="w-3 h-3 sm:w-4 sm:h-4 rounded-full" style={{ backgroundColor: COLORS.accentBlue }} />
                                 </div>
                             </div>
                         </div>

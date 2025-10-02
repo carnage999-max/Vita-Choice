@@ -53,28 +53,153 @@ interface Product {
     faqs: Array<{ question: string; answer: string }>;
 }
 
+// Helper function to parse stringified arrays from API
+const parseStringArray = (value: string[] | string | null | undefined): string[] => {
+    if (!value) return [];
+    
+    console.log('Parsing value:', value, 'Type:', typeof value, 'Is Array:', Array.isArray(value));
+    
+    // If it's an array, check if it contains stringified arrays
+    if (Array.isArray(value)) {
+        // Handle case where array contains stringified arrays like ["['item1', 'item2']"]
+        if (value.length === 1 && typeof value[0] === 'string') {
+            const singleItem = value[0];
+            console.log('Single item in array:', singleItem);
+            
+            // Replace single quotes with double quotes for proper JSON parsing
+            let jsonString = singleItem;
+            if (singleItem.startsWith('[') && singleItem.endsWith(']')) {
+                // Convert single quotes to double quotes for JSON parsing
+                jsonString = singleItem.replace(/'/g, '"');
+                console.log('Converted to JSON format:', jsonString);
+                
+                try {
+                    const jsonParsed = JSON.parse(jsonString);
+                    if (Array.isArray(jsonParsed)) {
+                        console.log('JSON parsed successfully:', jsonParsed);
+                        // Clean up each item to remove any remaining brackets or quotes
+                        const cleaned = jsonParsed
+                            .filter(item => item && typeof item === 'string' && item.length > 0)
+                            .map(item => item.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim())
+                            .filter(item => item.length > 0);
+                        
+                        console.log('Cleaned result:', cleaned);
+                        return cleaned;
+                    }
+                } catch (jsonError) {
+                    console.log('JSON parsing failed, trying manual parsing:', jsonError);
+                    
+                    // Fallback to manual parsing
+                    try {
+                        const cleanedValue = singleItem.slice(1, -1); // Remove outer brackets
+                        const result = cleanedValue
+                            .split(',')
+                            .map(item => item.trim().replace(/^['"\[\]]+|['"\[\]]+$/g, ''))
+                            .filter(item => item.length > 0);
+                        
+                        console.log('Manual parsing result:', result);
+                        return result;
+                    } catch (error) {
+                        console.warn('Manual parsing also failed:', error);
+                        return [singleItem];
+                    }
+                }
+            }
+            // If it's just a regular string in an array, clean it up
+            return [singleItem.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim()].filter(item => item.length > 0);
+        }
+        // If it's already a proper array with multiple items, clean each item
+        return value
+            .filter(item => item && typeof item === 'string' && item.length > 0)
+            .map(item => item.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim())
+            .filter(item => item.length > 0);
+    }
+    
+    // If it's a string, try JSON parsing first
+    if (typeof value === 'string') {
+        // Convert single quotes to double quotes for JSON parsing
+        let jsonString = value.replace(/'/g, '"');
+        
+        try {
+            const jsonParsed = JSON.parse(jsonString);
+            if (Array.isArray(jsonParsed)) {
+                return jsonParsed
+                    .filter(item => item && typeof item === 'string' && item.length > 0)
+                    .map(item => item.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim())
+                    .filter(item => item.length > 0);
+            }
+        } catch (jsonError) {
+            // If JSON parsing fails, continue with manual parsing
+            console.log('String JSON parsing failed, trying manual parsing');
+        }
+        
+        try {
+            // Handle string arrays like "['item1', 'item2']"
+            if (value.startsWith('[') && value.endsWith(']')) {
+                // Remove brackets and parse
+                const cleanedValue = value.slice(1, -1);
+                // Split by comma and clean up quotes and brackets
+                return cleanedValue
+                    .split(',')
+                    .map(item => item.trim().replace(/^['"\[\]]+|['"\[\]]+$/g, ''))
+                    .filter(item => item.length > 0);
+            }
+            // Handle comma-separated strings
+            if (value.includes(',')) {
+                return value.split(',').map(item => item.trim().replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '')).filter(item => item.length > 0);
+            }
+            // Single item
+            return [value.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim()].filter(item => item.length > 0);
+        } catch (error) {
+            console.warn('Failed to parse array string:', value, error);
+            return [value];
+        }
+    }
+    
+    console.log('Returning empty array for value:', value);
+    return [];
+};
+
 // Function to transform API product to internal product structure
-const transformApiProduct = (apiProduct: ApiProduct): Product => ({
-    id: apiProduct.id,
-    name: apiProduct.name,
-    subtitle: apiProduct.subtitle || "",
-    price: parseFloat(apiProduct.price),
-    originalPrice: apiProduct.original_price ? parseFloat(apiProduct.original_price) : parseFloat(apiProduct.price),
-    category: apiProduct.category,
-    image: apiProduct.image,
-    rating: parseFloat(apiProduct.rating),
-    reviewCount: apiProduct.review_count,
-    description: apiProduct.description,
-    shortDescription: apiProduct.short_description,
-    benefits: apiProduct.benefits || [],
-    keyActives: apiProduct.key_actives || [],
-    freeFrom: apiProduct.free_from || [],
-    servingSize: apiProduct.serving_size,
-    servingsPerBottle: apiProduct.servings_per_bottle ? parseInt(apiProduct.servings_per_bottle) : null,
-    usage: apiProduct.usage,
-    isBestseller: false,
-    faqs: apiProduct.faqs || []
-});
+const transformApiProduct = (apiProduct: ApiProduct): Product => {
+    // Debug logging to see the actual format
+    console.log('Raw API product data:', {
+        key_actives: apiProduct.key_actives,
+        benefits: apiProduct.benefits,
+        free_from: apiProduct.free_from
+    });
+
+    const transformed = {
+        id: apiProduct.id,
+        name: apiProduct.name,
+        subtitle: apiProduct.subtitle || "",
+        price: parseFloat(apiProduct.price),
+        originalPrice: apiProduct.original_price ? parseFloat(apiProduct.original_price) : parseFloat(apiProduct.price),
+        category: apiProduct.category,
+        image: apiProduct.image,
+        rating: parseFloat(apiProduct.rating),
+        reviewCount: apiProduct.review_count,
+        description: apiProduct.description,
+        shortDescription: apiProduct.short_description,
+        benefits: parseStringArray(apiProduct.benefits),
+        keyActives: parseStringArray(apiProduct.key_actives),
+        freeFrom: parseStringArray(apiProduct.free_from),
+        servingSize: apiProduct.serving_size,
+        servingsPerBottle: apiProduct.servings_per_bottle ? parseInt(apiProduct.servings_per_bottle) : null,
+        usage: apiProduct.usage,
+        isBestseller: false,
+        faqs: apiProduct.faqs || []
+    };
+
+    // Debug logging to see the transformed result
+    console.log('Transformed product data:', {
+        benefits: transformed.benefits,
+        keyActives: transformed.keyActives,
+        freeFrom: transformed.freeFrom
+    });
+
+    return transformed;
+};
 
 // Fallback products data (keeping original structure)
 const fallbackProducts: Product[] = [

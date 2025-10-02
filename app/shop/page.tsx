@@ -43,7 +43,7 @@ interface Product {
     description: string;
     shortDescription: string;
     benefits: string[];
-    keyActives: string | string[];
+    keyActives: string[];
     freeFrom?: string[];
     usage?: string;
     isPopular?: boolean;
@@ -72,7 +72,7 @@ const fallbackProducts: Product[] = [
             "Stress resilience building",
             "Immune system support"
         ],
-        keyActives: "Methylfolate (5‑MTHF), methylcobalamin, P5P (B6), chelated magnesium, zinc, selenium, iodine, vitamin D baseline 2000 IU (adjustable), spirulina + seaweed complex",
+        keyActives: ["Methylfolate (5‑MTHF)", "methylcobalamin", "P5P (B6)", "chelated magnesium", "zinc", "selenium", "iodine", "vitamin D baseline 2000 IU (adjustable)", "spirulina + seaweed complex"],
         freeFrom: ["Gluten", "artificial colors/sweeteners"],
         isPopular: true,
         isBestseller: true
@@ -95,7 +95,7 @@ const fallbackProducts: Product[] = [
             "Mitochondrial function enhancement",
             "Gut balance maintenance"
         ],
-        keyActives: "Chromium (picolinate), Ceylon cinnamon extract, berberine HCl, ALA (R‑alpha‑lipoic acid), magnesium, inositol, pre‑/probiotics blend",
+        keyActives: ["Chromium (picolinate)", "Ceylon cinnamon extract", "berberine HCl", "ALA (R‑alpha‑lipoic acid)", "magnesium", "inositol", "pre‑/probiotics blend"],
         usage: "Daily with meals; see label for dosing; consult physician if on medication",
         isSpecialized: true
     },
@@ -117,7 +117,7 @@ const fallbackProducts: Product[] = [
             "Gut barrier integrity",
             "Antioxidant defense enhancement"
         ],
-        keyActives: "Soluble fiber complex, chlorella, activated charcoal (timed use), NAC, glutathione precursors, zinc‑carnosine, lactobacillus/bifido strains",
+        keyActives: ["Soluble fiber complex", "chlorella", "activated charcoal (timed use)", "NAC", "glutathione precursors", "zinc‑carnosine", "lactobacillus/bifido strains"],
         usage: "Cyclic protocol; maintain hydration and mineral intake",
         isNew: true
     },
@@ -139,7 +139,7 @@ const fallbackProducts: Product[] = [
             "Durable, medical-grade materials",
             "Easy cleaning & maintenance"
         ],
-        keyActives: "Engineered dispenser mechanism with calibrated markings; BPA-free, food-safe materials.",
+        keyActives: ["Engineered dispenser mechanism with calibrated markings", "BPA-free, food-safe materials"],
         usage: "Use to measure and dispense the exact serving size of liquid supplements daily.",
         isNew: true
     }
@@ -147,6 +147,102 @@ const fallbackProducts: Product[] = [
 ];
 
 // Function to transform API product to internal product structure
+// Helper function to parse stringified arrays from API
+const parseStringArray = (value: string[] | string | null | undefined): string[] => {
+    if (!value) return [];
+    
+    // If it's an array, check if it contains stringified arrays
+    if (Array.isArray(value)) {
+        // Handle case where array contains stringified arrays like ["['item1', 'item2']"]
+        if (value.length === 1 && typeof value[0] === 'string') {
+            const singleItem = value[0];
+            
+            // Replace single quotes with double quotes for proper JSON parsing
+            let jsonString = singleItem;
+            if (singleItem.startsWith('[') && singleItem.endsWith(']')) {
+                // Convert single quotes to double quotes for JSON parsing
+                jsonString = singleItem.replace(/'/g, '"');
+                
+                try {
+                    const jsonParsed = JSON.parse(jsonString);
+                    if (Array.isArray(jsonParsed)) {
+                        // Clean up each item to remove any remaining brackets or quotes
+                        const cleaned = jsonParsed
+                            .filter(item => item && typeof item === 'string' && item.length > 0)
+                            .map(item => item.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim())
+                            .filter(item => item.length > 0);
+                        
+                        return cleaned;
+                    }
+                } catch (jsonError) {
+                    // Fallback to manual parsing
+                    try {
+                        const cleanedValue = singleItem.slice(1, -1); // Remove brackets
+                        const result = cleanedValue
+                            .split(',')
+                            .map(item => item.trim().replace(/^['"\[\]]+|['"\[\]]+$/g, ''))
+                            .filter(item => item.length > 0);
+                        
+                        return result;
+                    } catch (error) {
+                        console.warn('Manual parsing also failed:', error);
+                        return [singleItem];
+                    }
+                }
+            }
+            // If it's just a regular string in an array, clean it up
+            return [singleItem.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim()].filter(item => item.length > 0);
+        }
+        // If it's already a proper array with multiple items, clean each item
+        return value
+            .filter(item => item && typeof item === 'string' && item.length > 0)
+            .map(item => item.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim())
+            .filter(item => item.length > 0);
+    }
+    
+    // If it's a string, try JSON parsing first
+    if (typeof value === 'string') {
+        // Convert single quotes to double quotes for JSON parsing
+        let jsonString = value.replace(/'/g, '"');
+        
+        try {
+            const jsonParsed = JSON.parse(jsonString);
+            if (Array.isArray(jsonParsed)) {
+                return jsonParsed
+                    .filter(item => item && typeof item === 'string' && item.length > 0)
+                    .map(item => item.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim())
+                    .filter(item => item.length > 0);
+            }
+        } catch (jsonError) {
+            // If JSON parsing fails, continue with manual parsing
+        }
+        
+        try {
+            // Handle string arrays like "['item1', 'item2']"
+            if (value.startsWith('[') && value.endsWith(']')) {
+                // Remove brackets and parse
+                const cleanedValue = value.slice(1, -1);
+                // Split by comma and clean up quotes and brackets
+                return cleanedValue
+                    .split(',')
+                    .map(item => item.trim().replace(/^['"\[\]]+|['"\[\]]+$/g, ''))
+                    .filter(item => item.length > 0);
+            }
+            // Handle comma-separated strings
+            if (value.includes(',')) {
+                return value.split(',').map(item => item.trim().replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '')).filter(item => item.length > 0);
+            }
+            // Single item
+            return [value.replace(/^[\[\]'"\s]+|[\[\]'"\s]+$/g, '').trim()].filter(item => item.length > 0);
+        } catch (error) {
+            console.warn('Failed to parse array string:', value, error);
+            return [value];
+        }
+    }
+    
+    return [];
+};
+
 const transformApiProduct = (apiProduct: ApiProduct): Product => ({
     id: apiProduct.id,
     name: apiProduct.name,
@@ -159,9 +255,9 @@ const transformApiProduct = (apiProduct: ApiProduct): Product => ({
     reviewCount: apiProduct.review_count,
     description: apiProduct.description,
     shortDescription: apiProduct.short_description,
-    benefits: apiProduct.benefits || [],
-    keyActives: apiProduct.key_actives || [],
-    freeFrom: apiProduct.free_from || [],
+    benefits: parseStringArray(apiProduct.benefits),
+    keyActives: parseStringArray(apiProduct.key_actives),
+    freeFrom: parseStringArray(apiProduct.free_from),
     usage: apiProduct.usage,
     // Add some default properties for UI display
     isPopular: false,

@@ -1,66 +1,176 @@
+import { COLORS, TYPOGRAPHY } from "@/app/lib/constants";
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Footer() {
     return (
-        <footer className="mt-16 border-t border-[#0f1720]">
-            <div className="max-w-7xl mx-auto px-6 py-10 grid grid-cols-2 md:grid-cols-4 gap-8">
-                {/* Logo / Brand */}
-                <div className="col-span-2 md:col-span-1">
-                    <div className="flex items-center gap-3">
-                        <div className="w-10 h-10 rounded-md bg-gradient-to-br from-[#0ea5a6] to-[#2dd4bf] flex items-center justify-center text-[#021012] font-bold">
-                            VC
+        <footer style={{ backgroundColor: COLORS.surface }}>
+            <div className="mx-auto max-w-7xl px-4 py-12 sm:px-6 lg:px-8">
+                {/* Main Footer Content */}
+                <div className="grid grid-cols-2 gap-8 md:grid-cols-4">
+                    {/* Enhanced Brand Section - Spans 2 columns on mobile */}
+                    <div className="col-span-2">
+                        <div className="flex flex-col items-start gap-4">
+                            {/* Logo and Main Tagline */}
+                            <div className="flex items-center gap-4">
+                                <Image
+                                    src="/logo.png"
+                                    alt="Vita Choice"
+                                    width={100}
+                                    height={32}
+                                    className="w-auto h-10 drop-shadow-lg"
+                                />
+                                <div className="hidden sm:block w-px h-8 bg-gradient-to-b from-transparent via-[#2EE6D6]/30 to-transparent"></div>
+                                <div>
+                                    <p 
+                                        className="text-lg font-semibold bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] bg-clip-text text-transparent"
+                                        style={{ fontFamily: TYPOGRAPHY.heading }}
+                                    >
+                                        The Choice is Yours
+                                    </p>
+                                    <p className="text-sm text-gray-400">Premium Liquid Multivitamins</p>
+                                </div>
+                            </div>
+                            
+                            <p
+                                className="mt-2 text-sm"
+                                style={{ color: COLORS.textMuted }}
+                            >
+                                Premium liquid multivitamins tailored to your unique health needs.
+                                Science-backed formulations for optimal wellness.
+                            </p>
+                            
+                            {/* Floating Pills Decoration */}
+                            <div className="flex items-center gap-2 mt-4 opacity-60">
+                                <div className="w-3 h-3 bg-gradient-to-br from-[#2EE6D6] to-[#2EA7FF] rounded-full animate-pulse"></div>
+                                <div className="w-2 h-2 bg-gradient-to-br from-[#F5A623] to-[#f39c12] rounded-full animate-pulse" style={{ animationDelay: '0.5s' }}></div>
+                                <div className="w-2.5 h-2.5 bg-gradient-to-br from-[#e74c3c] to-[#c0392b] rounded-full animate-pulse" style={{ animationDelay: '1s' }}></div>
+                                <span className="text-xs text-gray-500 ml-2">Crafted for your wellness</span>
+                            </div>
                         </div>
-                        <div>
-                            <p className="font-semibold text-white">VitaChoice</p>
-                            <p className="text-xs text-[#9fb0c9]">Advanced Nutritional Formulas — launching soon</p>
-                        </div>
+                    </div>
+
+                    {/* Product Links */}
+                    <div>
+                        <h3
+                            className="text-lg font-semibold"
+                            style={{
+                                color: COLORS.accentTeal,
+                                fontFamily: TYPOGRAPHY.heading,
+                            }}
+                        >
+                            Products
+                        </h3>
+                        <ul className="mt-4 space-y-2">
+                            <li>
+                                <Link
+                                    href="/shop"
+                                    className="text-sm transition-colors hover:text-white"
+                                    style={{ color: COLORS.textMuted }}
+                                >
+                                    All Products
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/shop"
+                                    className="text-sm transition-colors hover:text-white"
+                                    style={{ color: COLORS.textMuted }}
+                                >
+                                    Vitamin Stacks
+                                </Link>
+                            </li>
+                        </ul>
+                    </div>
+
+                    {/* Company & Legal Links Combined */}
+                    <div>
+                        <h3
+                            className="text-lg font-semibold"
+                            style={{
+                                color: COLORS.accentTeal,
+                                fontFamily: TYPOGRAPHY.heading,
+                            }}
+                        >
+                            Company
+                        </h3>
+                        <ul className="mt-4 space-y-2">
+                            <li>
+                                <Link
+                                    href="/about"
+                                    className="text-sm transition-colors hover:text-white"
+                                    style={{ color: COLORS.textMuted }}
+                                >
+                                    About Us
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/contact"
+                                    className="text-sm transition-colors hover:text-white"
+                                    style={{ color: COLORS.textMuted }}
+                                >
+                                    Contact
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/faq"
+                                    className="text-sm transition-colors hover:text-white"
+                                    style={{ color: COLORS.textMuted }}
+                                >
+                                    FAQ
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/privacy"
+                                    className="text-sm transition-colors hover:text-white"
+                                    style={{ color: COLORS.textMuted }}
+                                >
+                                    Privacy Policy
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/terms"
+                                    className="text-sm transition-colors hover:text-white"
+                                    style={{ color: COLORS.textMuted }}
+                                >
+                                    Terms of Service
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/shipping-policy"
+                                    className="text-sm transition-colors hover:text-white"
+                                    style={{ color: COLORS.textMuted }}
+                                >
+                                    Shipping Policy
+                                </Link>
+                            </li>
+                            <li>
+                                <Link
+                                    href="/refund-policy"
+                                    className="text-sm transition-colors hover:text-white"
+                                    style={{ color: COLORS.textMuted }}
+                                >
+                                    Refund Policy
+                                </Link>
+                            </li>
+                        </ul>
                     </div>
                 </div>
 
-                {/* Company Links */}
-                <div className="text-sm text-[#9fb0c9]">
-                    <h5 className="font-medium text-white">Company</h5>
-                    <ul className="mt-3 space-y-2">
-                        <li><Link href="/about">About</Link></li>
-                        <li><Link href="/privacy">Privacy Policy</Link></li>
-                        <li><Link href="/terms">Terms of Service</Link></li>
-                    </ul>
+                {/* Copyright Only */}
+                <div
+                    className="mt-8 border-t pt-8 text-center"
+                    style={{ borderColor: COLORS.border }}
+                >
+                    <span className="text-sm" style={{ color: COLORS.textMuted }}>
+                        &copy; 2024 VitaChoice. All rights reserved.
+                    </span>
                 </div>
-
-                {/* Support Links */}
-                <div className="text-sm text-[#9fb0c9]">
-                    <h5 className="font-medium text-white">Support</h5>
-                    <ul className="mt-3 space-y-2">
-                        <li><Link href="/faq">FAQ</Link></li>
-                        <li><Link href="/refund-policy">Refund Policy</Link></li>
-                        <li><Link href="/shipping-policy">Shipping Policy</Link></li>
-                    </ul>
-                </div>
-
-                {/* Newsletter Signup */}
-                <div className="col-span-2 md:col-span-1">
-                    <h5 className="font-medium text-white">Stay Updated</h5>
-                    <p className="text-xs text-[#9fb0c9] mt-2 mb-4">
-                        Subscribe for launch updates and exclusive offers.
-                    </p>
-                    <form className="flex flex-col sm:flex-row gap-3">
-                        <input
-                            type="email"
-                            placeholder="Enter your email"
-                            className="flex-1 px-4 py-2 rounded-md bg-[#14161A] text-white placeholder-[#7f95a8] border border-[#262A31] focus:outline-none focus:border-[#2EE6D6]"
-                        />
-                        <button
-                            type="submit"
-                            className="bg-gradient-to-r from-[#2EE6D6] to-[#2EA7FF] text-[#0B0C0E] px-6 py-2 rounded-md font-semibold hover:shadow-[0_8px_20px_rgba(46,230,214,0.3)] transition-all duration-300 hover:-translate-y-0.5"
-                        >
-                            Subscribe
-                        </button>
-                    </form>
-                </div>
-            </div>
-
-            <div className="max-w-7xl mx-auto px-6 py-4 text-xs text-[#7f95a8] border-t border-[#0b1317] text-center md:text-left">
-                © {new Date().getFullYear()} VitaChoice. All rights reserved.
             </div>
         </footer>
     );
