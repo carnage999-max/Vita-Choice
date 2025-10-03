@@ -150,8 +150,8 @@ export default function Hero({ onOpenWaitlist }: { onOpenWaitlist: () => void })
                                         fontSize: 'clamp(0.875rem, 2.5vw, 1rem)' // 14px to 16px responsive
                                     }}
                                 >
-                                    Every bottle is uniquely formulated for your body, based on ISB results
-                                    and doctor guidance. No fillers. No binders. Just real results.
+                                    One patented liquid multivitamin—over 5,000 ingredients in one simple drink, 
+                                    replacing handfuls of pills for complete body and mind nutrition.
                                 </p>
                             </div>
 
