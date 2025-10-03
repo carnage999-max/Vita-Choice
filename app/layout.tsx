@@ -21,6 +21,7 @@ export default function RootLayout({
       <head>
         {/* Primary Meta */}
         <title>Vita-Choice — Advanced Nutritional Formulas</title>
+        <meta name="google-site-verification" content="so8YgBqd5eU-lHyxuu1aCSGQYOlTj8tzplR5_pW6tuo" />
         <meta
           name="description"
           content="Fully methylated, clean, science-driven supplements. International shipping. Shop Vita-Choice."
