@@ -428,7 +428,7 @@ const ProductDetailPage = () => {
                 setLoading(true);
                 setError(null);
                 
-                const response = await fetch(`https://vita-choice-backend.onrender.com/api/product//${id}/`);
+                const response = await fetch(`https://vita-choice-backend.onrender.com/api/product/${id}/`);
                 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);
@@ -465,7 +465,7 @@ const ProductDetailPage = () => {
     useEffect(() => {
         const fetchRelatedProducts = async () => {
             try {
-                const response = await fetch('https://vita-choice-backend.onrender.com/api/product//');
+                const response = await fetch('https://vita-choice-backend.onrender.com/api/product/');
                 
                 if (response.ok) {
                     const apiProducts: ApiProduct[] = await response.json();
