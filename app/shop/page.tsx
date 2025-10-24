@@ -280,7 +280,7 @@ const ShopPage = () => {
                 setLoading(true);
                 setError(null);
 
-                const response = await fetch('https://vita-choice-backend.onrender.com/api/product/');
+                const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}api/product/`);
 
                 if (!response.ok) {
                     throw new Error(`HTTP error! status: ${response.status}`);

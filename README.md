@@ -93,7 +93,7 @@ npm run build:android
 ## 🌐 API Integration
 
 Both applications integrate with the Vita-Choice backend:
-- **Base URL:** `https://vita-choice-backend.onrender.com/api`
+- **Base URL:** `https://api.thevitachoice.com/api`
 - **Endpoints:** Products, Contact, Newsletter, Waitlist
 
 ## 📦 Deployment
