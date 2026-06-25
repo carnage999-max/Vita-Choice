@@ -55,6 +55,9 @@ export default function RootLayout({
 
         {/* Favicons */}
         <link rel="icon" href="/favicon.ico" />
+        <link rel="manifest" href="/manifest.webmanifest" />
+        <link rel="apple-touch-icon" href="/apple-icon.png" />
+        <link rel="icon" type="image/png" href="/icon.png" />
 
         {/* JSON-LD Schemas */}
         <script
