@@ -1,0 +1,9 @@
+# *
+User-agent: *
+Allow: /
+
+# Host
+Host: https://thevitachoice.com
+
+# Sitemaps
+Sitemap: https://thevitachoice.com/sitemap.xml
